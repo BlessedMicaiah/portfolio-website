@@ -1,0 +1,49 @@
+/* Updated Animation for Skills Carousel */
+.skills-track {
+    display: flex;
+    animation: scroll 60s linear infinite;
+    width: max-content;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-110px * 21)); /* Width of items plus margins, adjusted for all skills */
+    }
+}
+
+/* Responsive adjustments for the animation */
+@media screen and (max-width: 768px) {
+    @keyframes scroll {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(calc(-94px * 21)); /* Adjusted for smaller screens */
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    @keyframes scroll {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(calc(-80px * 21)); /* Adjusted for mobile screens */
+        }
+    }
+}
+
+@media screen and (max-width: 360px) {
+    @keyframes scroll {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(calc(-66px * 21)); /* Adjusted for very small screens */
+        }
+    }
+}
