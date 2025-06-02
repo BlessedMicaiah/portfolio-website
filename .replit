@@ -6,3 +6,15 @@ channel = "stable-24_05"
 
 [deployment]
 run = ["sh", "-c", "run the project"]
+
+[workflows]
+runButton = "Serve Portfolio"
+
+[[workflows.workflow]]
+name = "Serve Portfolio"
+author = 42946037
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python -m http.server 5000 --bind 0.0.0.0"
