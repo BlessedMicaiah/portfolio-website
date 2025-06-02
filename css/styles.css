@@ -319,7 +319,7 @@ section {
         transform: translateX(0);
     }
     100% {
-        transform: translateX(calc(-110px * 9)); /* Width of items plus margins */
+        transform: translateX(calc(-110px * 21)); /* Width of items plus margins for all 21 skills */
     }
 }
 
@@ -628,6 +628,7 @@ main,
 
     .about-text p {
         max-width: 100%;
+        text-align: left;
     }
     
     .skills-container {
@@ -652,12 +653,13 @@ main,
             transform: translateX(0);
         }
         100% {
-            transform: translateX(calc(-94px * 9)); /* Adjusted for smaller screens */
+            transform: translateX(calc(-94px * 21)); /* Adjusted for smaller screens */
         }
     }
     
     .hero h1 {
         font-size: 3rem;
+        text-align: center;
     }
     
     .hero h2 {
@@ -666,11 +668,33 @@ main,
     
     .intro-text {
         font-size: 1rem;
+        text-align: center;
+    }
+    
+    .job-title-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.2em;
+    }
+    
+    .iam-a {
+        font-size: 1.2em;
+    }
+    
+    .job-title-text {
+        font-size: 2em;
+        text-align: center;
+        min-width: auto;
+    }
+    
+    .typed-cursor {
+        font-size: 2em;
     }
     
     .section-title {
         font-size: 1.6rem;
         margin-bottom: 30px;
+        text-align: center;
     }
     
     .project-grid {
@@ -694,6 +718,7 @@ main,
     
     .social-links {
         gap: 15px;
+        justify-content: center;
     }
     
     .social-links a {
@@ -713,6 +738,7 @@ main,
     
     .hero {
         min-height: calc(100vh - 50px);
+        text-align: center;
     }
     
     .floating-menu {
@@ -757,28 +783,56 @@ main,
             transform: translateX(0);
         }
         100% {
-            transform: translateX(calc(-80px * 9)); /* Adjusted for mobile screens */
+            transform: translateX(calc(-80px * 21)); /* Adjusted for mobile screens */
         }
     }
     
     .hero h1 {
         font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 15px;
     }
     
     .hero h2 {
         font-size: 1.5rem;
     }
     
+    .job-title-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.1em;
+        margin-bottom: 1.5em;
+    }
+    
+    .iam-a {
+        font-size: 1em;
+        margin-bottom: 0.2em;
+    }
+    
+    .job-title-text {
+        font-size: 1.8em;
+        text-align: center;
+        min-width: auto;
+    }
+    
+    .typed-cursor {
+        font-size: 1.8em;
+    }
+    
     .intro-text {
         font-size: 0.9rem;
+        text-align: center;
+        margin-top: 1em;
     }
     
     .section-title {
         font-size: 1.4rem;
+        text-align: center;
     }
     
     .about-text p {
         font-size: 0.9rem;
+        text-align: left;
     }
     
     .timeline-item-header h3 {
@@ -809,27 +863,9 @@ main,
         padding: 20px;
     }
     
-    .skill-item {
-        min-width: 80px;
-        margin: 0 10px;
-        padding: 10px;
-    }
-    
-    .skill-item i {
-        font-size: 1.8rem;
-    }
-    
-    @keyframes scroll {
-        0% {
-            transform: translateX(0);
-        }
-        100% {
-            transform: translateX(calc(-80px * 9 - 20px * 9)); /* Adjusted for mobile screens */
-        }
-    }
-    
     .social-links {
         gap: 10px;
+        justify-content: center;
     }
     
     .social-links a {
@@ -840,6 +876,7 @@ main,
     
     footer p {
         font-size: 0.8rem;
+        text-align: center;
     }
 }
 
@@ -964,15 +1001,8 @@ main,
   align-items: baseline;
   justify-content: center;
   gap: 0.5em;
-  margin-bottom: 0.2em;
-}
-
-.job-title-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 0.5em;
-  margin-bottom: 0.2em;
+  margin-bottom: 1em;
+  flex-wrap: wrap;
 }
 
 .iam-a {
@@ -981,6 +1011,7 @@ main,
   color: var(--text-primary);
   letter-spacing: 0.03em;
   font-family: inherit;
+  line-height: 1.2;
 }
 
 .job-title-text {
@@ -991,6 +1022,9 @@ main,
   font-family: inherit;
   min-height: 1.2em;
   display: inline-block;
+  line-height: 1.2;
+  min-width: 200px;
+  text-align: left;
 }
 
 .typed-cursor {
@@ -1000,7 +1034,7 @@ main,
   font-weight: 700;
   margin-left: 2px;
   animation: blink-cursor 0.8s steps(1) infinite;
-  line-height: 1;
+  line-height: 1.2;
 }
 
 @keyframes blink-cursor {
