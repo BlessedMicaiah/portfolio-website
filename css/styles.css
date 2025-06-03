@@ -657,10 +657,10 @@ footer {
     backdrop-filter: var(--glass-blur);
 }
 
-/* Modern Spatial Toolbar */
+/* Floating Bottom Menu */
 .floating-menu {
     position: fixed;
-    top: 20px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
@@ -668,81 +668,55 @@ footer {
     display: block;
 }
 
-.toolbar-container {
-    background: rgba(0, 0, 0, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50px;
-    padding: 6px;
-    backdrop-filter: blur(20px);
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.4),
-        0 2px 8px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    max-width: 400px;
-}
-
 .toolbar-links {
     display: flex;
-    align-items: center;
-    gap: 2px;
-    position: relative;
+    gap: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    padding: 10px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 }
 
 .toolbar-item {
     display: flex;
-    align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: transparent;
-    color: rgba(255, 255, 255, 0.7);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--text-primary);
+    transition: var(--transition);
     text-decoration: none;
-    cursor: pointer;
-    border: none;
-    overflow: hidden;
-}
-
-.toolbar-item::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    opacity: 0;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: scale(0.8);
-}
-
-.toolbar-item:hover::before {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.toolbar-item:hover {
-    color: rgba(255, 255, 255, 1);
-    transform: scale(1.1);
-}
-
-.toolbar-item.active {
-    color: rgba(255, 255, 255, 1);
-    background: rgba(255, 255, 255, 0.15);
-}
-
-.toolbar-item.active::before {
-    opacity: 1;
-    transform: scale(1);
-    background: rgba(255, 255, 255, 0.05);
+    white-space: nowrap;
 }
 
 .toolbar-item i {
-    font-size: 18px;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    z-index: 1;
+    font-size: 1.2rem;
+    color: var(--text-primary);
+}
+
+.toolbar-item span {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.toolbar-item:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-5px);
+    color: var(--text-primary);
+}
+
+.toolbar-item.active {
+    background-color: var(--accent-primary);
+    color: white;
+}
+
+.toolbar-item.active i,
+.toolbar-item.active span {
+    color: white;
 }
 
 /* Mobile Hamburger Menu */
@@ -950,30 +924,34 @@ footer {
 }
 
 /* Light theme adjustments */
-body.light-theme .toolbar-container {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.15),
-        0 2px 8px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+body.light-theme .toolbar-links {
+    background-color: rgba(0, 0, 0, 0.05);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
 body.light-theme .toolbar-item {
-    color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.08);
+    color: var(--text-primary-light);
 }
 
-body.light-theme .toolbar-item::before {
-    background: rgba(0, 0, 0, 0.05);
+body.light-theme .toolbar-item i,
+body.light-theme .toolbar-item span {
+    color: var(--text-primary-light);
 }
 
 body.light-theme .toolbar-item:hover {
-    color: rgba(0, 0, 0, 1);
+    background-color: rgba(0, 0, 0, 0.15);
+    color: var(--text-primary-light);
 }
 
 body.light-theme .toolbar-item.active {
-    color: rgba(0, 0, 0, 1);
-    background: rgba(0, 0, 0, 0.08);
+    background-color: var(--accent-primary);
+    color: white;
+}
+
+body.light-theme .toolbar-item.active i,
+body.light-theme .toolbar-item.active span {
+    color: white;
 }
 
 body.light-theme .mobile-menu-toggle {
@@ -1218,14 +1196,22 @@ body.light-theme .spatial-tooltip::before {
         margin: 8px auto;
     }
 
+    .toolbar-links {
+        gap: 8px;
+        padding: 8px;
+    }
+
     .toolbar-item {
-        padding: 4px 8px;
-        min-width: 36px;
-        height: 24px;
+        padding: 8px 12px;
+        gap: 4px;
     }
 
     .toolbar-item i {
-        font-size: 0.9rem;
+        font-size: 1rem;
+    }
+
+    .toolbar-item span {
+        font-size: 0.8rem;
     }
 
     .theme-toggle {

@@ -155,54 +155,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Enhanced smooth scrolling for navigation with spatial tooltips
+    // Smooth scrolling for toolbar links
     toolbarAnchors.forEach(anchor => {
-        anchor.addEventListener('mouseenter', function(e) {
-            clearTimeout(tooltipTimeout);
-            const tooltipText = this.getAttribute('data-tooltip');
-            if (tooltipText) {
-                tooltipTimeout = setTimeout(() => {
-                    showSpatialTooltip(this, tooltipText, e.clientX, e.clientY);
-                }, 300);
-            }
-        });
-
-        anchor.addEventListener('mousemove', function(e) {
-            if (currentTooltipTarget === this) {
-                const tooltipText = this.getAttribute('data-tooltip');
-                showSpatialTooltip(this, tooltipText, e.clientX, e.clientY);
-            }
-        });
-
-        anchor.addEventListener('mouseleave', function() {
-            clearTimeout(tooltipTimeout);
-            hideSpatialTooltip();
-        });
-        
         anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Hide tooltip on click
-            hideSpatialTooltip();
-            
-            // Remove active class from all items
-            toolbarAnchors.forEach(item => item.classList.remove('active'));
-            
-            // Add active class to clicked item
-            this.classList.add('active');
-            
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            
-            if (targetElement) {
-                const headerOffset = 80;
-                const elementPosition = targetElement.offsetTop;
-                const offsetPosition = Math.max(0, elementPosition - headerOffset);
+            if (this.getAttribute('href').startsWith('#')) {
+                e.preventDefault();
                 
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
+                // Remove active class from all items
+                toolbarAnchors.forEach(item => item.classList.remove('active'));
+                
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const headerOffset = 80;
+                    const elementPosition = targetElement.offsetTop;
+                    const offsetPosition = Math.max(0, elementPosition - headerOffset);
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     });
