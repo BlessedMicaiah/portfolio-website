@@ -665,6 +665,7 @@ footer {
     transform: translateX(-50%);
     z-index: 1000;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: block;
 }
 
 .toolbar-container {
@@ -827,10 +828,12 @@ footer {
     z-index: 999;
     opacity: 0;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
 }
 
 .mobile-menu-overlay.active {
     opacity: 1;
+    pointer-events: auto;
 }
 
 .mobile-menu {
@@ -850,11 +853,13 @@ footer {
     z-index: 1000;
     opacity: 0;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
 }
 
 .mobile-menu.active {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
 }
 
 .mobile-menu-links {
@@ -1084,6 +1089,25 @@ body.light-theme .spatial-tooltip::before {
     }
 }
 
+@media screen and (min-width: 769px) {
+    /* Ensure floating menu is visible on desktop */
+    .floating-menu {
+        display: block !important;
+    }
+    
+    .mobile-menu-toggle {
+        display: none !important;
+    }
+    
+    .mobile-menu-overlay {
+        display: none !important;
+    }
+    
+    .mobile-menu {
+        display: none !important;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .container {
         padding: 0 16px;
@@ -1128,21 +1152,21 @@ body.light-theme .spatial-tooltip::before {
 
     /* Hide desktop toolbar and show mobile menu */
     .floating-menu {
-        display: none;
+        display: none !important;
     }
 
     .mobile-menu-toggle {
-        display: flex;
+        display: flex !important;
         align-items: center;
         justify-content: center;
     }
 
     .mobile-menu-overlay {
-        display: block;
+        display: block !important;
     }
 
     .mobile-menu {
-        display: block;
+        display: block !important;
     }
 
     .theme-toggle {
