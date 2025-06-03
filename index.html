@@ -21,26 +21,29 @@
         />
     </head>
     <body>
-        <!-- Floating Top Menu -->
+        <!-- Spatial Tooltip Menu -->
         <div class="floating-menu">
             <div class="toolbar-links">
-                <a href="#home" class="toolbar-item active">
+                <a href="#home" class="toolbar-item active" data-tooltip="Home">
                     <i class="fas fa-home"></i>
                 </a>
-                <a href="#about" class="toolbar-item">
+                <a href="#about" class="toolbar-item" data-tooltip="About">
                     <i class="fas fa-user"></i>
                 </a>
-                <a href="#experience" class="toolbar-item">
+                <a href="#experience" class="toolbar-item" data-tooltip="Experience">
                     <i class="fas fa-briefcase"></i>
                 </a>
-                <a href="#projects" class="toolbar-item">
+                <a href="#projects" class="toolbar-item" data-tooltip="Projects">
                     <i class="fas fa-code"></i>
                 </a>
-                <a href="#contact" class="toolbar-item">
+                <a href="#contact" class="toolbar-item" data-tooltip="Contact">
                     <i class="fas fa-envelope"></i>
                 </a>
             </div>
         </div>
+
+        <!-- Spatial Tooltip -->
+        <div class="spatial-tooltip" id="spatialTooltip"></div>
 
         <div class="container">
             <main>

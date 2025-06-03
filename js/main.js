@@ -38,12 +38,87 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Enhanced smooth scrolling for navigation
+    // Spatial Tooltip System
+    const spatialTooltip = document.getElementById('spatialTooltip');
     const toolbarAnchors = document.querySelectorAll('.toolbar-item');
-    
+    let tooltipTimeout;
+    let currentTooltipTarget = null;
+
+    function showSpatialTooltip(element, text, mouseX, mouseY) {
+        if (currentTooltipTarget === element) return;
+        
+        currentTooltipTarget = element;
+        spatialTooltip.textContent = text;
+        spatialTooltip.classList.add('visible');
+        
+        // Calculate optimal position with spatial awareness
+        const rect = element.getBoundingClientRect();
+        const tooltipRect = spatialTooltip.getBoundingClientRect();
+        
+        // Default position: below the element, centered
+        let x = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+        let y = rect.bottom + 12;
+        
+        // Spatial adjustments based on viewport constraints
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        const margin = 16;
+        
+        // Horizontal positioning with mouse influence
+        const mouseInfluence = 0.3;
+        const mouseDelta = mouseX - (rect.left + rect.width / 2);
+        x += mouseDelta * mouseInfluence;
+        
+        // Boundary checks and adjustments
+        if (x < margin) {
+            x = margin;
+        } else if (x + tooltipRect.width > viewportWidth - margin) {
+            x = viewportWidth - tooltipRect.width - margin;
+        }
+        
+        // Vertical positioning - move above if too close to bottom
+        if (y + tooltipRect.height > viewportHeight - margin) {
+            y = rect.top - tooltipRect.height - 12;
+        }
+        
+        spatialTooltip.style.left = `${x}px`;
+        spatialTooltip.style.top = `${y}px`;
+    }
+
+    function hideSpatialTooltip() {
+        spatialTooltip.classList.remove('visible');
+        currentTooltipTarget = null;
+    }
+
+    // Enhanced smooth scrolling for navigation with spatial tooltips
     toolbarAnchors.forEach(anchor => {
+        anchor.addEventListener('mouseenter', function(e) {
+            clearTimeout(tooltipTimeout);
+            const tooltipText = this.getAttribute('data-tooltip');
+            if (tooltipText) {
+                tooltipTimeout = setTimeout(() => {
+                    showSpatialTooltip(this, tooltipText, e.clientX, e.clientY);
+                }, 300);
+            }
+        });
+
+        anchor.addEventListener('mousemove', function(e) {
+            if (currentTooltipTarget === this) {
+                const tooltipText = this.getAttribute('data-tooltip');
+                showSpatialTooltip(this, tooltipText, e.clientX, e.clientY);
+            }
+        });
+
+        anchor.addEventListener('mouseleave', function() {
+            clearTimeout(tooltipTimeout);
+            hideSpatialTooltip();
+        });
+        
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
+            
+            // Hide tooltip on click
+            hideSpatialTooltip();
             
             // Remove active class from all items
             toolbarAnchors.forEach(item => item.classList.remove('active'));
@@ -65,6 +140,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         });
+    });
+
+    // Hide tooltip when scrolling or clicking elsewhere
+    window.addEventListener('scroll', hideSpatialTooltip);
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.floating-menu')) {
+            hideSpatialTooltip();
+        }
     });
 
     // Enhanced scroll animations with Intersection Observer
