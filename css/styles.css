@@ -688,11 +688,14 @@ footer {
     color: var(--text-secondary);
     transition: var(--transition);
     position: relative;
+    text-align: center;
 }
 
 .toolbar-item i {
     font-size: 1.2rem;
     transition: var(--transition);
+    display: block;
+    line-height: 1;
 }
 
 .toolbar-item:hover {
