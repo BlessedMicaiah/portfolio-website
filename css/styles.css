@@ -310,6 +310,7 @@ section {
     margin: 0 20px;
     transition: var(--transition);
     min-width: 120px;
+    cursor: pointer;
 }
 
 .skill-icon {
@@ -318,45 +319,73 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--glass-bg);
-    border: 2px solid var(--glass-border);
-    border-radius: var(--border-radius);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
     margin-bottom: 12px;
     position: relative;
     overflow: hidden;
-    backdrop-filter: var(--glass-blur);
-    transition: var(--transition);
+    backdrop-filter: blur(20px);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .skill-icon::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: var(--accent-gradient);
+    background: conic-gradient(from 0deg, 
+        rgba(99, 102, 241, 0.8) 0deg,
+        rgba(139, 92, 246, 0.8) 120deg,
+        rgba(99, 102, 241, 0.8) 240deg,
+        rgba(139, 92, 246, 0.8) 360deg);
     opacity: 0;
-    transition: var(--transition);
+    transition: all 0.4s ease;
+    animation: rotate 8s linear infinite;
+    filter: blur(8px);
+}
+
+.skill-icon::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: var(--bg-primary);
+    border-radius: 18px;
+    z-index: 1;
+    transition: all 0.4s ease;
 }
 
 .skill-item:hover .skill-icon {
-    transform: translateY(-8px) scale(1.05);
-    border-color: var(--accent-primary);
-    box-shadow: 0 12px 24px rgba(99, 102, 241, 0.3);
+    transform: translateY(-12px) scale(1.1);
+    box-shadow: 
+        0 20px 40px rgba(99, 102, 241, 0.3),
+        0 0 60px rgba(99, 102, 241, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-color: rgba(99, 102, 241, 0.4);
 }
 
 .skill-item:hover .skill-icon::before {
-    opacity: 0.1;
+    opacity: 1;
+    filter: blur(12px);
+}
+
+.skill-item:hover .skill-icon::after {
+    background: rgba(15, 15, 23, 0.9);
 }
 
 .skill-icon i {
     font-size: 2.2rem;
     color: var(--accent-primary);
-    transition: var(--transition);
-    z-index: 1;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 2;
+    position: relative;
+    filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.3));
 }
 
 .skill-item:hover .skill-icon i {
-    color: white;
-    transform: scale(1.1);
+    color: rgba(255, 255, 255, 0.95);
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.8));
+    text-shadow: 0 0 30px rgba(99, 102, 241, 0.6);
 }
 
 .skill-item span {
@@ -364,11 +393,45 @@ section {
     font-weight: 500;
     color: var(--text-primary);
     text-align: center;
-    transition: var(--transition);
+    transition: all 0.4s ease;
+    opacity: 0.8;
 }
 
 .skill-item:hover span {
     color: var(--accent-primary);
+    opacity: 1;
+    transform: translateY(-2px);
+    filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.4));
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Additional glow effects for specific skill types */
+.skill-item:nth-child(3n+1):hover .skill-icon::before {
+    background: conic-gradient(from 0deg, 
+        rgba(99, 102, 241, 0.9) 0deg,
+        rgba(168, 85, 247, 0.9) 120deg,
+        rgba(99, 102, 241, 0.9) 240deg,
+        rgba(168, 85, 247, 0.9) 360deg);
+}
+
+.skill-item:nth-child(3n+2):hover .skill-icon::before {
+    background: conic-gradient(from 0deg, 
+        rgba(139, 92, 246, 0.9) 0deg,
+        rgba(99, 102, 241, 0.9) 120deg,
+        rgba(139, 92, 246, 0.9) 240deg,
+        rgba(99, 102, 241, 0.9) 360deg);
+}
+
+.skill-item:nth-child(3n+3):hover .skill-icon::before {
+    background: conic-gradient(from 0deg, 
+        rgba(168, 85, 247, 0.9) 0deg,
+        rgba(139, 92, 246, 0.9) 120deg,
+        rgba(168, 85, 247, 0.9) 240deg,
+        rgba(139, 92, 246, 0.9) 360deg);
 }
 
 @keyframes scroll {
@@ -793,6 +856,15 @@ footer {
 
     .skill-icon i {
         font-size: 1.8rem;
+    }
+
+    .skill-icon::after {
+        inset: 1px;
+        border-radius: 15px;
+    }
+
+    .skill-item:hover .skill-icon {
+        transform: translateY(-8px) scale(1.05);
     }
 
     @keyframes scroll {
