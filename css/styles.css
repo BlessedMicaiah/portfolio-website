@@ -657,65 +657,106 @@ footer {
     backdrop-filter: var(--glass-blur);
 }
 
-/* Modern Dock-Style Toolbar */
+/* macOS-Style Dock */
 .floating-menu {
     position: fixed;
-    top: 20px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     display: block;
 }
 
 .toolbar-container {
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 50px;
-    padding: 8px 12px;
-    backdrop-filter: blur(24px);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+    padding: 12px 16px;
+    backdrop-filter: blur(40px);
     box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.12),
-        0 2px 8px rgba(0, 0, 0, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    min-width: 320px;
+        0 16px 40px rgba(0, 0, 0, 0.1),
+        0 8px 20px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    min-width: 400px;
+    position: relative;
+}
+
+.toolbar-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.3) 0%, 
+        rgba(255, 255, 255, 0.1) 50%, 
+        rgba(255, 255, 255, 0.05) 100%);
+    border-radius: 24px;
+    pointer-events: none;
 }
 
 .toolbar-links {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 8px;
     position: relative;
     justify-content: center;
+    z-index: 1;
 }
 
 .toolbar-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 22px;
-    background: transparent;
-    color: rgba(0, 0, 0, 0.6);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     position: relative;
     text-decoration: none;
     cursor: pointer;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.15);
     overflow: hidden;
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .toolbar-item::before {
     content: '';
     position: absolute;
-    inset: 2px;
-    background: rgba(0, 0, 0, 0.04);
-    border-radius: 20px;
+    inset: 0;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.2) 0%, 
+        rgba(255, 255, 255, 0.05) 100%);
+    border-radius: 16px;
     opacity: 0;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     transform: scale(0.8);
+}
+
+.toolbar-item::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.toolbar-item:hover {
+    transform: translateY(-8px) scale(1.1);
+    color: rgba(255, 255, 255, 1);
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 12px 32px rgba(0, 0, 0, 0.2),
+        0 6px 16px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .toolbar-item:hover::before {
@@ -723,33 +764,44 @@ footer {
     transform: scale(1);
 }
 
-.toolbar-item:hover {
-    color: rgba(0, 0, 0, 0.8);
-    transform: translateY(-2px);
-    background: rgba(0, 0, 0, 0.02);
+.toolbar-item:hover::after {
+    opacity: 1;
 }
 
 .toolbar-item.active {
-    color: rgba(0, 0, 0, 0.9);
-    background: rgba(0, 0, 0, 0.06);
-    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 1);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-4px) scale(1.05);
     box-shadow: 
-        0 2px 8px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        0 8px 24px rgba(0, 0, 0, 0.15),
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .toolbar-item.active::before {
     opacity: 1;
     transform: scale(1);
-    background: rgba(0, 0, 0, 0.02);
+}
+
+.toolbar-item.active::after {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .toolbar-item i {
-    font-size: 16px;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 20px;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     position: relative;
-    z-index: 1;
-    font-weight: 500;
+    z-index: 2;
+    font-weight: 400;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.toolbar-item:hover i {
+    transform: scale(1.1);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
 }
 
 /* Mobile Hamburger Menu */
@@ -956,42 +1008,87 @@ footer {
     transform: translateX(-50%) rotate(45deg);
 }
 
-/* Dark theme adjustments for new dock design */
+/* Dark theme adjustments for dock */
 body:not(.light-theme) .toolbar-container {
-    background: rgba(0, 0, 0, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.4),
-        0 2px 8px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 16px 40px rgba(0, 0, 0, 0.3),
+        0 8px 20px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+body:not(.light-theme) .toolbar-container::before {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(255, 255, 255, 0.05) 50%, 
+        rgba(255, 255, 255, 0.02) 100%);
 }
 
 body:not(.light-theme) .toolbar-item {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-body:not(.light-theme) .toolbar-item::before {
     background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.12);
 }
 
 body:not(.light-theme) .toolbar-item:hover {
-    color: rgba(255, 255, 255, 0.9);
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
 body:not(.light-theme) .toolbar-item.active {
-    color: rgba(255, 255, 255, 1);
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Light theme adjustments for dock */
+body.light-theme .toolbar-container {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 
-        0 2px 8px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        0 16px 40px rgba(0, 0, 0, 0.08),
+        0 8px 20px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.05);
 }
 
-body:not(.light-theme) .toolbar-item.active::before {
-    background: rgba(255, 255, 255, 0.05);
+body.light-theme .toolbar-container::before {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.8) 0%, 
+        rgba(255, 255, 255, 0.4) 50%, 
+        rgba(255, 255, 255, 0.2) 100%);
 }
 
-/* Light theme adjustments remain the same as default styles above */
+body.light-theme .toolbar-item {
+    background: rgba(0, 0, 0, 0.05);
+    color: rgba(0, 0, 0, 0.7);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+body.light-theme .toolbar-item:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.9);
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: 
+        0 12px 32px rgba(0, 0, 0, 0.1),
+        0 6px 16px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+body.light-theme .toolbar-item.active {
+    background: rgba(0, 0, 0, 0.12);
+    color: rgba(0, 0, 0, 1);
+    border-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.08),
+        0 4px 12px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+}
 
 body.light-theme .mobile-menu-toggle {
     background: rgba(255, 255, 255, 0.9);
@@ -1187,7 +1284,7 @@ body.light-theme .spatial-tooltip::before {
     }
 
     .theme-toggle {
-        bottom: 20px;
+        bottom: 100px;
         right: 20px;
         width: 48px;
         height: 48px;
