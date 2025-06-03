@@ -657,92 +657,247 @@ footer {
     backdrop-filter: var(--glass-blur);
 }
 
-/* Spatial Tooltip Menu - Rauno.me inspired */
+/* Modern Spatial Toolbar */
 .floating-menu {
-    position: sticky;
+    position: fixed;
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
-    transition: var(--transition);
-    margin: 20px auto;
-    width: fit-content;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Toolbar scroll behavior */
-.floating-menu.scrolled {
-    background: rgba(15, 15, 23, 0.95);
+.toolbar-container {
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    padding: 6px;
+    backdrop-filter: blur(20px);
     box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.4),
-        0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.floating-menu.hidden {
-    transform: translateX(-50%) translateY(-100%);
-    opacity: 0;
+        0 2px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 400px;
 }
 
 .toolbar-links {
     display: flex;
     align-items: center;
-    gap: 4px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
-    padding: 8px;
-    backdrop-filter: blur(32px);
-    box-shadow: 
-        0 4px 16px rgba(0, 0, 0, 0.12),
-        0 1px 3px rgba(0, 0, 0, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.06);
-    transition: var(--transition);
-    min-height: 48px;
+    gap: 2px;
     position: relative;
 }
 
 .toolbar-item {
     display: flex;
-    justify-content: center;
     align-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
     background: transparent;
-    color: var(--text-secondary);
-    transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     text-decoration: none;
     cursor: pointer;
-    border: 1px solid transparent;
+    border: none;
+    overflow: hidden;
+}
+
+.toolbar-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    opacity: 0;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(0.8);
+}
+
+.toolbar-item:hover::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.toolbar-item:hover {
+    color: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+}
+
+.toolbar-item.active {
+    color: rgba(255, 255, 255, 1);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.toolbar-item.active::before {
+    opacity: 1;
+    transform: scale(1);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .toolbar-item i {
     font-size: 18px;
-    transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
-    display: block;
-    line-height: 1;
-    pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 1;
 }
 
-.toolbar-item:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--text-primary);
-    border-color: rgba(255, 255, 255, 0.12);
-    transform: scale(1.05);
-}
-
-.toolbar-item.active {
-    background: rgba(255, 255, 255, 0.12);
-    color: var(--accent-primary);
-    border-color: rgba(99, 102, 241, 0.3);
+/* Mobile Hamburger Menu */
+.mobile-menu-toggle {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    backdrop-filter: blur(20px);
     box-shadow: 
-        0 2px 8px rgba(99, 102, 241, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 2px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 1001;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.toolbar-item.active:hover {
+.mobile-menu-toggle:hover {
+    transform: scale(1.1);
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.hamburger {
+    position: relative;
+    width: 20px;
+    height: 16px;
+    margin: auto;
+}
+
+.hamburger span {
+    display: block;
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 1px;
+    opacity: 1;
+    left: 0;
+    transition: all 0.25s ease-in-out;
+}
+
+.hamburger span:nth-child(1) {
+    top: 0px;
+}
+
+.hamburger span:nth-child(2) {
+    top: 7px;
+}
+
+.hamburger span:nth-child(3) {
+    top: 14px;
+}
+
+.mobile-menu-toggle.active .hamburger span:nth-child(1) {
+    top: 7px;
+    transform: rotate(135deg);
+}
+
+.mobile-menu-toggle.active .hamburger span:nth-child(2) {
+    opacity: 0;
+    left: -20px;
+}
+
+.mobile-menu-toggle.active .hamburger span:nth-child(3) {
+    top: 7px;
+    transform: rotate(-135deg);
+}
+
+.mobile-menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 999;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1;
+}
+
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.6),
+        0 8px 16px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-menu.active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.mobile-menu-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mobile-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 200px;
+}
+
+.mobile-menu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
+}
+
+.mobile-menu-item.active {
     background: rgba(255, 255, 255, 0.15);
-    transform: scale(1.05);
+    color: rgba(255, 255, 255, 1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.mobile-menu-item i {
+    font-size: 18px;
+    width: 20px;
+    text-align: center;
+}
+
+.mobile-menu-item span {
+    font-size: 16px;
+    font-weight: 500;
 }
 
 /* Spatial Tooltip */
@@ -790,30 +945,64 @@ footer {
 }
 
 /* Light theme adjustments */
-body.light-theme .toolbar-links {
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0, 0, 0, 0.08);
+body.light-theme .toolbar-container {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 
-        0 4px 16px rgba(0, 0, 0, 0.08),
-        0 1px 3px rgba(0, 0, 0, 0.04),
+        0 8px 32px rgba(0, 0, 0, 0.15),
+        0 2px 8px rgba(0, 0, 0, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+body.light-theme .toolbar-item {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+body.light-theme .toolbar-item::before {
+    background: rgba(0, 0, 0, 0.05);
 }
 
 body.light-theme .toolbar-item:hover {
-    background: rgba(0, 0, 0, 0.04);
-    border-color: rgba(0, 0, 0, 0.08);
+    color: rgba(0, 0, 0, 1);
 }
 
 body.light-theme .toolbar-item.active {
-    background: rgba(99, 102, 241, 0.08);
-    border-color: rgba(99, 102, 241, 0.2);
-    box-shadow: 
-        0 2px 8px rgba(99, 102, 241, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    color: rgba(0, 0, 0, 1);
+    background: rgba(0, 0, 0, 0.08);
 }
 
-body.light-theme .toolbar-item.active:hover {
-    background: rgba(99, 102, 241, 0.12);
+body.light-theme .mobile-menu-toggle {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .mobile-menu-toggle:hover {
+    background: rgba(255, 255, 255, 1);
+}
+
+body.light-theme .hamburger span {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+body.light-theme .mobile-menu {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .mobile-menu-item {
+    color: rgba(0, 0, 0, 0.8);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .mobile-menu-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: rgba(0, 0, 0, 1);
+}
+
+body.light-theme .mobile-menu-item.active {
+    background: rgba(0, 0, 0, 0.08);
+    color: rgba(0, 0, 0, 1);
+    border-color: rgba(0, 0, 0, 0.2);
 }
 
 body.light-theme .spatial-tooltip {
@@ -937,21 +1126,23 @@ body.light-theme .spatial-tooltip::before {
         gap: 24px;
     }
 
+    /* Hide desktop toolbar and show mobile menu */
     .floating-menu {
-        width: 90%;
-        margin: 10px auto;
+        display: none;
     }
 
-    .toolbar-links {
-        width: 100%;
-        justify-content: space-around;
-        padding: 6px;
+    .mobile-menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .toolbar-item {
-        padding: 6px 12px;
-        min-width: 40px;
-        height: 28px;
+    .mobile-menu-overlay {
+        display: block;
+    }
+
+    .mobile-menu {
+        display: block;
     }
 
     .theme-toggle {

@@ -90,6 +90,71 @@ document.addEventListener('DOMContentLoaded', () => {
         currentTooltipTarget = null;
     }
 
+    // Mobile Menu Functionality
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+    const mobileMenuItems = document.querySelectorAll('.mobile-menu-item');
+
+    function toggleMobileMenu() {
+        const isActive = mobileMenuToggle.classList.contains('active');
+        
+        if (isActive) {
+            // Close menu
+            mobileMenuToggle.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        } else {
+            // Open menu
+            mobileMenuToggle.classList.add('active');
+            mobileMenu.classList.add('active');
+            mobileMenuOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+    }
+
+    if (mobileMenuOverlay) {
+        mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
+    }
+
+    // Mobile menu item clicks
+    mobileMenuItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all mobile items
+            mobileMenuItems.forEach(menuItem => menuItem.classList.remove('active'));
+            
+            // Add active class to clicked item
+            this.classList.add('active');
+            
+            // Close mobile menu
+            toggleMobileMenu();
+            
+            // Navigate to section
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                const headerOffset = 80;
+                const elementPosition = targetElement.offsetTop;
+                const offsetPosition = Math.max(0, elementPosition - headerOffset);
+                
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }, 300);
+            }
+        });
+    });
+
     // Enhanced smooth scrolling for navigation with spatial tooltips
     toolbarAnchors.forEach(anchor => {
         anchor.addEventListener('mouseenter', function(e) {
@@ -234,9 +299,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        // Update active state
+        // Update active state for both desktop and mobile
         if (activeSection) {
+            // Update desktop toolbar
             toolbarAnchors.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === `#${activeSection}`) {
+                    item.classList.add('active');
+                }
+            });
+            
+            // Update mobile menu
+            mobileMenuItems.forEach(item => {
                 item.classList.remove('active');
                 if (item.getAttribute('href') === `#${activeSection}`) {
                     item.classList.add('active');
