@@ -657,7 +657,7 @@ footer {
     backdrop-filter: var(--glass-blur);
 }
 
-/* Modern Spatial Toolbar */
+/* Modern Dock-Style Toolbar */
 .floating-menu {
     position: fixed;
     top: 20px;
@@ -669,36 +669,37 @@ footer {
 }
 
 .toolbar-container {
-    background: rgba(0, 0, 0, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 50px;
-    padding: 6px;
-    backdrop-filter: blur(20px);
+    padding: 8px 12px;
+    backdrop-filter: blur(24px);
     box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.4),
-        0 2px 8px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 8px 32px rgba(0, 0, 0, 0.12),
+        0 2px 8px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    max-width: 400px;
+    min-width: 320px;
 }
 
 .toolbar-links {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 4px;
     position: relative;
+    justify-content: center;
 }
 
 .toolbar-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    border-radius: 22px;
     background: transparent;
-    color: rgba(255, 255, 255, 0.7);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    color: rgba(0, 0, 0, 0.6);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     text-decoration: none;
     cursor: pointer;
@@ -709,11 +710,11 @@ footer {
 .toolbar-item::before {
     content: '';
     position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
+    inset: 2px;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 20px;
     opacity: 0;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     transform: scale(0.8);
 }
 
@@ -723,26 +724,32 @@ footer {
 }
 
 .toolbar-item:hover {
-    color: rgba(255, 255, 255, 1);
-    transform: scale(1.1);
+    color: rgba(0, 0, 0, 0.8);
+    transform: translateY(-2px);
+    background: rgba(0, 0, 0, 0.02);
 }
 
 .toolbar-item.active {
-    color: rgba(255, 255, 255, 1);
-    background: rgba(255, 255, 255, 0.15);
+    color: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .toolbar-item.active::before {
     opacity: 1;
     transform: scale(1);
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.02);
 }
 
 .toolbar-item i {
-    font-size: 18px;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 16px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     z-index: 1;
+    font-weight: 500;
 }
 
 /* Mobile Hamburger Menu */
@@ -949,32 +956,42 @@ footer {
     transform: translateX(-50%) rotate(45deg);
 }
 
-/* Light theme adjustments */
-body.light-theme .toolbar-container {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(0, 0, 0, 0.1);
+/* Dark theme adjustments for new dock design */
+body:not(.light-theme) .toolbar-container {
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.15),
-        0 2px 8px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 2px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-body.light-theme .toolbar-item {
-    color: rgba(0, 0, 0, 0.7);
+body:not(.light-theme) .toolbar-item {
+    color: rgba(255, 255, 255, 0.7);
 }
 
-body.light-theme .toolbar-item::before {
-    background: rgba(0, 0, 0, 0.05);
+body:not(.light-theme) .toolbar-item::before {
+    background: rgba(255, 255, 255, 0.08);
 }
 
-body.light-theme .toolbar-item:hover {
-    color: rgba(0, 0, 0, 1);
+body:not(.light-theme) .toolbar-item:hover {
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.05);
 }
 
-body.light-theme .toolbar-item.active {
-    color: rgba(0, 0, 0, 1);
-    background: rgba(0, 0, 0, 0.08);
+body:not(.light-theme) .toolbar-item.active {
+    color: rgba(255, 255, 255, 1);
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
+
+body:not(.light-theme) .toolbar-item.active::before {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Light theme adjustments remain the same as default styles above */
 
 body.light-theme .mobile-menu-toggle {
     background: rgba(255, 255, 255, 0.9);
