@@ -353,23 +353,41 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Enhanced floating menu interactions
+    // Enhanced floating menu interactions with scroll behavior
     function enhanceFloatingMenu() {
         const floatingMenu = document.querySelector('.floating-menu');
         let lastScrollY = window.scrollY;
-        
+        let scrollTimeout;
+
         window.addEventListener('scroll', () => {
             const currentScrollY = window.scrollY;
-            
-            if (currentScrollY > lastScrollY && currentScrollY > 100) {
-                // Scrolling down - subtle opacity change
-                floatingMenu.style.opacity = '0.8';
+
+            // Clear existing timeout
+            clearTimeout(scrollTimeout);
+
+            // Add scrolled class when scrolling
+            if (currentScrollY > 50) {
+                floatingMenu.classList.add('scrolled');
             } else {
-                // Scrolling up - full opacity
+                floatingMenu.classList.remove('scrolled');
+            }
+
+            // Hide on fast scroll down, show on scroll up
+            if (currentScrollY > lastScrollY && currentScrollY > 200) {
+                floatingMenu.style.transform = 'translateX(-50%) translateY(-20px)';
+                floatingMenu.style.opacity = '0.7';
+            } else {
+                floatingMenu.style.transform = 'translateX(-50%) translateY(0)';
                 floatingMenu.style.opacity = '1';
             }
-            
+
             lastScrollY = currentScrollY;
+
+            // Reset after scroll ends
+            scrollTimeout = setTimeout(() => {
+                floatingMenu.style.transform = 'translateX(-50%) translateY(0)';
+                floatingMenu.style.opacity = '1';
+            }, 150);
         });
     }
 
