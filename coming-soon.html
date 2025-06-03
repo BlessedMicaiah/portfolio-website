@@ -1,0 +1,407 @@
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Coming Soon - Emmanuel Micaiah Afriyie</title>
+        <meta
+            name="description"
+            content="Something amazing is coming soon. Stay tuned!"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --bg-primary-dark: #0a0a0f;
+                --text-primary-dark: #e4e4e7;
+                --text-secondary-dark: #a1a1aa;
+                --accent-primary: #6366f1;
+                --accent-secondary: #8b5cf6;
+                --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                background: var(--bg-primary-dark);
+                color: var(--text-primary-dark);
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+                position: relative;
+            }
+
+            /* Background Pattern */
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: 
+                    radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 40%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+                pointer-events: none;
+                z-index: -1;
+            }
+
+            .container {
+                text-align: center;
+                z-index: 1;
+                max-width: 800px;
+                padding: 0 20px;
+            }
+
+            /* Staggered Text Animation */
+            .staggered-text {
+                font-size: clamp(3rem, 8vw, 8rem);
+                font-weight: 900;
+                letter-spacing: -0.02em;
+                line-height: 1.1;
+                margin-bottom: 2rem;
+                overflow: hidden;
+            }
+
+            .staggered-text .word {
+                display: inline-block;
+                margin-right: 0.3em;
+                overflow: hidden;
+            }
+
+            .staggered-text .char {
+                display: inline-block;
+                transform: translateY(100%);
+                transition: transform 0.8s cubic-bezier(0.23, 1, 0.320, 1);
+                background: var(--accent-gradient);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .staggered-text .char.animate {
+                transform: translateY(0);
+            }
+
+            /* Countdown Styles */
+            .countdown-container {
+                margin: 4rem 0;
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 1s ease 2s;
+            }
+
+            .countdown-container.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .countdown {
+                display: flex;
+                justify-content: center;
+                gap: 2rem;
+                margin-bottom: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .countdown-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 16px;
+                padding: 1.5rem 1rem;
+                backdrop-filter: blur(20px);
+                min-width: 100px;
+                transition: all 0.3s ease;
+            }
+
+            .countdown-item:hover {
+                transform: translateY(-4px);
+                background: rgba(255, 255, 255, 0.08);
+                border-color: var(--accent-primary);
+            }
+
+            .countdown-number {
+                font-size: clamp(2rem, 4vw, 3rem);
+                font-weight: 800;
+                background: var(--accent-gradient);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                line-height: 1;
+                margin-bottom: 0.5rem;
+                font-variant-numeric: tabular-nums;
+            }
+
+            .countdown-label {
+                font-size: 0.9rem;
+                color: var(--text-secondary-dark);
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+
+            .countdown-subtitle {
+                color: var(--text-secondary-dark);
+                font-size: 1.1rem;
+                margin-top: 1rem;
+                opacity: 0;
+                transform: translateY(10px);
+                transition: all 0.8s ease 2.5s;
+            }
+
+            .countdown-subtitle.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* Resume Button */
+            .resume-button {
+                margin-top: 3rem;
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.8s ease 3s;
+            }
+
+            .resume-button.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .resume-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 12px;
+                padding: 16px 32px;
+                background: var(--accent-gradient);
+                color: white;
+                text-decoration: none;
+                border-radius: 50px;
+                font-size: 1rem;
+                font-weight: 600;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 8px 32px rgba(99, 102, 241, 0.3);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .resume-btn::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .resume-btn:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 16px 40px rgba(99, 102, 241, 0.4);
+            }
+
+            .resume-btn:hover::before {
+                opacity: 1;
+            }
+
+            .resume-btn:active {
+                transform: translateY(-2px);
+            }
+
+            .arrow {
+                transition: transform 0.3s ease;
+            }
+
+            .resume-btn:hover .arrow {
+                transform: translateX(4px);
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .countdown {
+                    gap: 1rem;
+                }
+
+                .countdown-item {
+                    padding: 1rem 0.75rem;
+                    min-width: 80px;
+                }
+
+                .staggered-text {
+                    margin-bottom: 1.5rem;
+                }
+
+                .countdown-container {
+                    margin: 2rem 0;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .countdown {
+                    gap: 0.75rem;
+                }
+
+                .countdown-item {
+                    padding: 0.75rem 0.5rem;
+                    min-width: 70px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Staggered Text -->
+            <div class="staggered-text" id="staggeredText">
+                <div class="word">
+                    <span class="char">C</span>
+                    <span class="char">o</span>
+                    <span class="char">m</span>
+                    <span class="char">i</span>
+                    <span class="char">n</span>
+                    <span class="char">g</span>
+                </div>
+                <div class="word">
+                    <span class="char">S</span>
+                    <span class="char">o</span>
+                    <span class="char">o</span>
+                    <span class="char">n</span>
+                </div>
+            </div>
+
+            <!-- Countdown -->
+            <div class="countdown-container" id="countdownContainer">
+                <div class="countdown" id="countdown">
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="days">00</div>
+                        <div class="countdown-label">Days</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="hours">00</div>
+                        <div class="countdown-label">Hours</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="minutes">00</div>
+                        <div class="countdown-label">Minutes</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="seconds">00</div>
+                        <div class="countdown-label">Seconds</div>
+                    </div>
+                </div>
+                <div class="countdown-subtitle" id="countdownSubtitle">
+                    Something amazing is on the way...
+                </div>
+            </div>
+
+            <!-- Resume Button -->
+            <div class="resume-button" id="resumeButton">
+                <a href="index.html" class="resume-btn">
+                    <span>Click to view minimalistic resume</span>
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </div>
+
+        <script>
+            // Staggered text animation
+            function animateStaggeredText() {
+                const chars = document.querySelectorAll('.staggered-text .char');
+                
+                chars.forEach((char, index) => {
+                    setTimeout(() => {
+                        char.classList.add('animate');
+                    }, index * 100);
+                });
+
+                // Show countdown after text animation
+                setTimeout(() => {
+                    document.getElementById('countdownContainer').classList.add('show');
+                }, chars.length * 100 + 500);
+
+                // Show subtitle
+                setTimeout(() => {
+                    document.getElementById('countdownSubtitle').classList.add('show');
+                }, chars.length * 100 + 1000);
+
+                // Show resume button
+                setTimeout(() => {
+                    document.getElementById('resumeButton').classList.add('show');
+                }, chars.length * 100 + 1500);
+            }
+
+            // Countdown timer
+            function startCountdown() {
+                // Set target date (30 days from now for demo purposes)
+                const targetDate = new Date();
+                targetDate.setDate(targetDate.getDate() + 30);
+                
+                function updateCountdown() {
+                    const now = new Date().getTime();
+                    const distance = targetDate.getTime() - now;
+
+                    if (distance < 0) {
+                        // Countdown finished
+                        document.getElementById('days').textContent = '00';
+                        document.getElementById('hours').textContent = '00';
+                        document.getElementById('minutes').textContent = '00';
+                        document.getElementById('seconds').textContent = '00';
+                        return;
+                    }
+
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+                }
+
+                // Update countdown immediately and then every second
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
+            }
+
+            // Initialize animations when page loads
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(() => {
+                    animateStaggeredText();
+                    startCountdown();
+                }, 300);
+            });
+
+            // Add some interactive effects
+            document.addEventListener('mousemove', (e) => {
+                const chars = document.querySelectorAll('.staggered-text .char');
+                const mouseX = e.clientX / window.innerWidth;
+                const mouseY = e.clientY / window.innerHeight;
+                
+                chars.forEach((char, index) => {
+                    const delay = index * 50;
+                    setTimeout(() => {
+                        const xOffset = (mouseX - 0.5) * 20;
+                        const yOffset = (mouseY - 0.5) * 20;
+                        char.style.transform = `translateY(0) translateX(${xOffset * 0.1}px)`;
+                    }, delay);
+                });
+            });
+        </script>
+    </body>
+</html>
