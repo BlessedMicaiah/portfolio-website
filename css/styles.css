@@ -657,47 +657,57 @@ footer {
     backdrop-filter: var(--glass-blur);
 }
 
-/* Floating Menu */
+/* Floating Menu - Rauno.me inspired */
 .floating-menu {
-    position: fixed;
-    bottom: 32px;
+    position: sticky;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
     transition: var(--transition);
+    margin: 20px auto;
+    width: fit-content;
 }
 
 .toolbar-links {
     display: flex;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 64px;
-    padding: 12px;
-    backdrop-filter: blur(20px);
+    align-items: center;
+    gap: 2px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 6px;
+    backdrop-filter: blur(24px);
     box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.05);
+        0 1px 3px rgba(0, 0, 0, 0.12),
+        0 1px 2px rgba(0, 0, 0, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     transition: var(--transition);
+    min-height: 44px;
 }
 
 .toolbar-item {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
+    padding: 8px 16px;
+    border-radius: 8px;
     background: transparent;
     color: var(--text-secondary);
-    transition: var(--transition);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     text-decoration: none;
     cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    min-width: 44px;
+    height: 32px;
 }
 
 .toolbar-item i {
-    font-size: 1.2rem;
+    font-size: 1rem;
     transition: var(--transition);
     display: block;
     line-height: 1;
@@ -705,26 +715,52 @@ footer {
 }
 
 .toolbar-item:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: var(--accent-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    transform: none;
+    box-shadow: none;
 }
 
 .toolbar-item.active {
-    background: var(--accent-gradient);
-    color: white;
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--text-primary);
     box-shadow: 
-        0 4px 12px rgba(99, 102, 241, 0.4),
-        0 0 0 2px rgba(255, 255, 255, 0.1);
-    transform: translateY(-1px);
+        0 1px 3px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: none;
 }
 
 .toolbar-item.active:hover {
-    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.2);
+    transform: none;
     box-shadow: 
-        0 6px 16px rgba(99, 102, 241, 0.5),
-        0 0 0 2px rgba(255, 255, 255, 0.2);
+        0 1px 3px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* Light theme adjustments */
+body.light-theme .toolbar-links {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 
+        0 1px 3px rgba(0, 0, 0, 0.1),
+        0 1px 2px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+body.light-theme .toolbar-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+body.light-theme .toolbar-item.active {
+    background: rgba(0, 0, 0, 0.08);
+    box-shadow: 
+        0 1px 3px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+body.light-theme .toolbar-item.active:hover {
+    background: rgba(0, 0, 0, 0.1);
 }
 
 /* Theme Toggle */
@@ -834,22 +870,23 @@ footer {
 
     .floating-menu {
         width: 90%;
-        bottom: 20px;
+        margin: 10px auto;
     }
 
     .toolbar-links {
         width: 100%;
         justify-content: space-around;
-        padding: 8px;
+        padding: 6px;
     }
 
     .toolbar-item {
-        width: 44px;
-        height: 44px;
+        padding: 6px 12px;
+        min-width: 40px;
+        height: 28px;
     }
 
     .theme-toggle {
-        bottom: 90px;
+        bottom: 20px;
         right: 20px;
         width: 48px;
         height: 48px;
@@ -892,13 +929,19 @@ footer {
         100% { transform: translateX(calc(-100px * 21)); }
     }
 
+    .floating-menu {
+        width: 95%;
+        margin: 8px auto;
+    }
+
     .toolbar-item {
-        width: 40px;
-        height: 40px;
+        padding: 4px 8px;
+        min-width: 36px;
+        height: 24px;
     }
 
     .toolbar-item i {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
     .theme-toggle {

@@ -279,11 +279,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const currentScrollY = window.scrollY;
             
             if (currentScrollY > lastScrollY && currentScrollY > 100) {
-                // Scrolling down
-                floatingMenu.style.transform = 'translateX(-50%) translateY(100px)';
+                // Scrolling down - subtle opacity change
+                floatingMenu.style.opacity = '0.8';
             } else {
-                // Scrolling up
-                floatingMenu.style.transform = 'translateX(-50%) translateY(0)';
+                // Scrolling up - full opacity
+                floatingMenu.style.opacity = '1';
             }
             
             lastScrollY = currentScrollY;
