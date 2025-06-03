@@ -663,18 +663,22 @@ footer {
     bottom: 32px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 100;
+    z-index: 1000;
+    transition: var(--transition);
 }
 
 .toolbar-links {
     display: flex;
     gap: 8px;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 64px;
     padding: 12px;
-    backdrop-filter: var(--glass-blur);
-    box-shadow: var(--shadow-xl);
+    backdrop-filter: blur(20px);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
 }
 
 .toolbar-item {
@@ -688,7 +692,8 @@ footer {
     color: var(--text-secondary);
     transition: var(--transition);
     position: relative;
-    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .toolbar-item i {
@@ -696,18 +701,30 @@ footer {
     transition: var(--transition);
     display: block;
     line-height: 1;
+    pointer-events: none;
 }
 
 .toolbar-item:hover {
-    background: var(--glass-bg);
+    background: rgba(255, 255, 255, 0.15);
     color: var(--accent-primary);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
 .toolbar-item.active {
     background: var(--accent-gradient);
     color: white;
-    box-shadow: var(--shadow-md);
+    box-shadow: 
+        0 4px 12px rgba(99, 102, 241, 0.4),
+        0 0 0 2px rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+.toolbar-item.active:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 6px 16px rgba(99, 102, 241, 0.5),
+        0 0 0 2px rgba(255, 255, 255, 0.2);
 }
 
 /* Theme Toggle */

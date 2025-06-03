@@ -43,22 +43,26 @@ document.addEventListener('DOMContentLoaded', () => {
     
     toolbarAnchors.forEach(anchor => {
         anchor.addEventListener('click', function(e) {
-            if (this.getAttribute('href').startsWith('#')) {
-                e.preventDefault();
+            e.preventDefault();
+            
+            // Remove active class from all items
+            toolbarAnchors.forEach(item => item.classList.remove('active'));
+            
+            // Add active class to clicked item
+            this.classList.add('active');
+            
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                const headerOffset = 80;
+                const elementPosition = targetElement.offsetTop;
+                const offsetPosition = Math.max(0, elementPosition - headerOffset);
                 
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    const headerOffset = 80;
-                    const elementPosition = targetElement.offsetTop;
-                    const offsetPosition = elementPosition - headerOffset;
-                    
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
             }
         });
     });
@@ -125,24 +129,37 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function updateActiveNavItem() {
-        const scrollPosition = window.scrollY + 100;
+        const scrollPosition = window.scrollY + 150;
+        let activeSection = null;
         
+        // Find the current section
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.offsetHeight;
             const sectionId = section.getAttribute('id');
             
             if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                // Remove active class from all toolbar items
-                toolbarAnchors.forEach(item => item.classList.remove('active'));
-                
-                // Add active class to current section's toolbar item
-                const activeItem = document.querySelector(`.toolbar-item[href="#${sectionId}"]`);
-                if (activeItem) {
-                    activeItem.classList.add('active');
-                }
+                activeSection = sectionId;
             }
         });
+        
+        // Handle edge case for the last section
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+            const lastSection = sections[sections.length - 1];
+            if (lastSection) {
+                activeSection = lastSection.getAttribute('id');
+            }
+        }
+        
+        // Update active state
+        if (activeSection) {
+            toolbarAnchors.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === `#${activeSection}`) {
+                    item.classList.add('active');
+                }
+            });
+        }
     }
 
     // Enhanced typing animation for job titles
