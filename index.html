@@ -1,446 +1,407 @@
+
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Your Name - Portfolio</title>
+        <title>Coming Soon - Emmanuel Micaiah Afriyie</title>
         <meta
             name="description"
-            content="Personal portfolio showcasing projects and experience in web development"
-        />
-        <link rel="stylesheet" href="css/styles.css" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            content="Something amazing is coming soon. Stay tuned!"
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
             rel="stylesheet"
         />
+        <style>
+            :root {
+                --bg-primary-dark: #0a0a0f;
+                --text-primary-dark: #e4e4e7;
+                --text-secondary-dark: #a1a1aa;
+                --accent-primary: #6366f1;
+                --accent-secondary: #8b5cf6;
+                --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                background: var(--bg-primary-dark);
+                color: var(--text-primary-dark);
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+                position: relative;
+            }
+
+            /* Background Pattern */
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: 
+                    radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 40%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+                pointer-events: none;
+                z-index: -1;
+            }
+
+            .container {
+                text-align: center;
+                z-index: 1;
+                max-width: 800px;
+                padding: 0 20px;
+            }
+
+            /* Staggered Text Animation */
+            .staggered-text {
+                font-size: clamp(3rem, 8vw, 8rem);
+                font-weight: 900;
+                letter-spacing: -0.02em;
+                line-height: 1.1;
+                margin-bottom: 2rem;
+                overflow: hidden;
+            }
+
+            .staggered-text .word {
+                display: inline-block;
+                margin-right: 0.3em;
+                overflow: hidden;
+            }
+
+            .staggered-text .char {
+                display: inline-block;
+                transform: translateY(100%);
+                transition: transform 0.8s cubic-bezier(0.23, 1, 0.320, 1);
+                background: var(--accent-gradient);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .staggered-text .char.animate {
+                transform: translateY(0);
+            }
+
+            /* Countdown Styles */
+            .countdown-container {
+                margin: 4rem 0;
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 1s ease 2s;
+            }
+
+            .countdown-container.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .countdown {
+                display: flex;
+                justify-content: center;
+                gap: 2rem;
+                margin-bottom: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .countdown-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 16px;
+                padding: 1.5rem 1rem;
+                backdrop-filter: blur(20px);
+                min-width: 100px;
+                transition: all 0.3s ease;
+            }
+
+            .countdown-item:hover {
+                transform: translateY(-4px);
+                background: rgba(255, 255, 255, 0.08);
+                border-color: var(--accent-primary);
+            }
+
+            .countdown-number {
+                font-size: clamp(2rem, 4vw, 3rem);
+                font-weight: 800;
+                background: var(--accent-gradient);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                line-height: 1;
+                margin-bottom: 0.5rem;
+                font-variant-numeric: tabular-nums;
+            }
+
+            .countdown-label {
+                font-size: 0.9rem;
+                color: var(--text-secondary-dark);
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+
+            .countdown-subtitle {
+                color: var(--text-secondary-dark);
+                font-size: 1.1rem;
+                margin-top: 1rem;
+                opacity: 0;
+                transform: translateY(10px);
+                transition: all 0.8s ease 2.5s;
+            }
+
+            .countdown-subtitle.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* Resume Button */
+            .resume-button {
+                margin-top: 3rem;
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.8s ease 3s;
+            }
+
+            .resume-button.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .resume-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 12px;
+                padding: 16px 32px;
+                background: var(--accent-gradient);
+                color: white;
+                text-decoration: none;
+                border-radius: 50px;
+                font-size: 1rem;
+                font-weight: 600;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 8px 32px rgba(99, 102, 241, 0.3);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .resume-btn::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .resume-btn:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 16px 40px rgba(99, 102, 241, 0.4);
+            }
+
+            .resume-btn:hover::before {
+                opacity: 1;
+            }
+
+            .resume-btn:active {
+                transform: translateY(-2px);
+            }
+
+            .arrow {
+                transition: transform 0.3s ease;
+            }
+
+            .resume-btn:hover .arrow {
+                transform: translateX(4px);
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .countdown {
+                    gap: 1rem;
+                }
+
+                .countdown-item {
+                    padding: 1rem 0.75rem;
+                    min-width: 80px;
+                }
+
+                .staggered-text {
+                    margin-bottom: 1.5rem;
+                }
+
+                .countdown-container {
+                    margin: 2rem 0;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .countdown {
+                    gap: 0.75rem;
+                }
+
+                .countdown-item {
+                    padding: 0.75rem 0.5rem;
+                    min-width: 70px;
+                }
+            }
+        </style>
     </head>
     <body>
-        <!-- Modern Spatial Toolbar -->
-        <div class="floating-menu">
-            <div class="toolbar-container">
-                <div class="toolbar-links">
-                    <a href="#home" class="toolbar-item active" data-tooltip="Home">
-                        <i class="fas fa-home"></i>
-                    </a>
-                    <a href="#about" class="toolbar-item" data-tooltip="About">
-                        <i class="fas fa-user"></i>
-                    </a>
-                    <a href="#experience" class="toolbar-item" data-tooltip="Experience">
-                        <i class="fas fa-briefcase"></i>
-                    </a>
-                    <a href="#projects" class="toolbar-item" data-tooltip="Projects">
-                        <i class="fas fa-code"></i>
-                    </a>
-                    <a href="#contact" class="toolbar-item" data-tooltip="Contact">
-                        <i class="fas fa-envelope"></i>
-                    </a>
+        <div class="container">
+            <!-- Staggered Text -->
+            <div class="staggered-text" id="staggeredText">
+                <div class="word">
+                    <span class="char">C</span>
+                    <span class="char">o</span>
+                    <span class="char">m</span>
+                    <span class="char">i</span>
+                    <span class="char">n</span>
+                    <span class="char">g</span>
+                </div>
+                <div class="word">
+                    <span class="char">S</span>
+                    <span class="char">o</span>
+                    <span class="char">o</span>
+                    <span class="char">n</span>
                 </div>
             </div>
-        </div>
 
-        <!-- Mobile Menu Toggle -->
-        <div class="mobile-menu-toggle" id="mobileMenuToggle">
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+            <!-- Countdown -->
+            <div class="countdown-container" id="countdownContainer">
+                <div class="countdown" id="countdown">
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="days">00</div>
+                        <div class="countdown-label">Days</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="hours">00</div>
+                        <div class="countdown-label">Hours</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="minutes">00</div>
+                        <div class="countdown-label">Minutes</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="seconds">00</div>
+                        <div class="countdown-label">Seconds</div>
+                    </div>
+                </div>
+                <div class="countdown-subtitle" id="countdownSubtitle">
+                    Something amazing is on the way...
+                </div>
             </div>
-        </div>
 
-        <!-- Mobile Menu Overlay -->
-        <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
-
-        <!-- Mobile Menu -->
-        <div class="mobile-menu" id="mobileMenu">
-            <div class="mobile-menu-links">
-                <a href="#home" class="mobile-menu-item active">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
-                </a>
-                <a href="#about" class="mobile-menu-item">
-                    <i class="fas fa-user"></i>
-                    <span>About</span>
-                </a>
-                <a href="#experience" class="mobile-menu-item">
-                    <i class="fas fa-briefcase"></i>
-                    <span>Experience</span>
-                </a>
-                <a href="#projects" class="mobile-menu-item">
-                    <i class="fas fa-code"></i>
-                    <span>Projects</span>
-                </a>
-                <a href="#contact" class="mobile-menu-item">
-                    <i class="fas fa-envelope"></i>
-                    <span>Contact</span>
+            <!-- Resume Button -->
+            <div class="resume-button" id="resumeButton">
+                <a href="index.html" class="resume-btn">
+                    <span>Click to view minimalistic resume</span>
+                    <span class="arrow">→</span>
                 </a>
             </div>
         </div>
 
-        <!-- Spatial Tooltip -->
-        <div class="spatial-tooltip" id="spatialTooltip"></div>
+        <script>
+            // Staggered text animation
+            function animateStaggeredText() {
+                const chars = document.querySelectorAll('.staggered-text .char');
+                
+                chars.forEach((char, index) => {
+                    setTimeout(() => {
+                        char.classList.add('animate');
+                    }, index * 100);
+                });
 
-        <div class="container">
-            <main>
-                <section id="home" class="hero">
-                    <h1>Emmanuel Micaiah Afriyie</h1>
-                    <div class="job-title-row">
-                        <span class="iam-a">I AM a</span>
-                        <span
-                            class="job-title-text"
-                            id="job-title-typed"
-                        ></span>
-                        <span class="typed-cursor">|</span>
-                    </div>
-                    <p class="intro-text">
-                        I build modern, responsive, and accessible web
-                        applications.
-                    </p>
-                    <div class="social-links">
-                        <a
-                            href="https://github.com/yourusername"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            ><i class="fab fa-github"></i
-                        ></a>
-                        <a
-                            href="https://linkedin.com/in/yourusername"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            ><i class="fab fa-linkedin"></i
-                        ></a>
-                        <a
-                            href="https://twitter.com/yourusername"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            ><i class="fab fa-x"></i
-                        ></a>
-                        <a href="mailto:your.email@example.com"
-                            ><i class="fas fa-envelope"></i
-                        ></a>
-                    </div>
-                </section>
+                // Show countdown after text animation
+                setTimeout(() => {
+                    document.getElementById('countdownContainer').classList.add('show');
+                }, chars.length * 100 + 500);
 
-                <section id="about" class="about">
-                    <h2 class="section-title">About</h2>
-                    <div class="about-section">
-                        <div class="about-content">
-                            <div class="about-text">
-                                <p>
-                                    I'm a developer passionate about creating
-                                    intuitive, user-friendly applications that
-                                    solve real-world problems. With a focus on
-                                    clean code and modern technologies, I strive
-                                    to build digital experiences that are both
-                                    functional and aesthetically pleasing.
-                                </p>
-                                <p>
-                                    Currently, I'm [your current position] at
-                                    [your current company], where I work on
-                                    [brief description of what you do].
-                                </p>
-                                <p>
-                                    When I'm not coding, you can find me [your
-                                    hobbies or interests].
-                                </p>
-                            </div>
-                        </div>
+                // Show subtitle
+                setTimeout(() => {
+                    document.getElementById('countdownSubtitle').classList.add('show');
+                }, chars.length * 100 + 1000);
 
-                        <h3 class="skills-title">Skills</h3>
-                        <div class="skills-carousel">
-                            <div class="skills-track">
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fab fa-js"></i>
-                                    </div>
-                                    <span>JavaScript</span>
-                                </div>
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fab fa-html5"></i>
-                                    </div>
-                                    <span>HTML5</span>
-                                </div>
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fab fa-css3-alt"></i>
-                                    </div>
-                                    <span>CSS3</span>
-                                </div>
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fab fa-react"></i>
-                                    </div>
-                                    <span>React</span>
-                                </div>
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fab fa-node-js"></i>
-                                    </div>
-                                    <span>Node.js</span>
-                                </div>
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fab fa-typescript"></i>
-                                    </div>
-                                    <span>TypeScript</span>
-                                </div>
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fab fa-git-alt"></i>
-                                    </div>
-                                    <span>Git</span>
-                                </div>
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fas fa-mobile-alt"></i>
-                                    </div>
-                                    <span>Responsive Design</span>
-                                </div>
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fas fa-palette"></i>
-                                    </div>
-                                    <span>UI/UX</span>
-                                </div>
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fas fa-rocket"></i>
-                                    </div>
-                                    <span>Astro</span>
-                                </div>
+                // Show resume button
+                setTimeout(() => {
+                    document.getElementById('resumeButton').classList.add('show');
+                }, chars.length * 100 + 1500);
+            }
 
-                                <!-- Vite -->
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fas fa-bolt"></i>
-                                    </div>
-                                    <span>Vite</span>
-                                </div>
+            // Countdown timer
+            function startCountdown() {
+                // Set target date (30 days from now for demo purposes)
+                const targetDate = new Date();
+                targetDate.setDate(targetDate.getDate() + 30);
+                
+                function updateCountdown() {
+                    const now = new Date().getTime();
+                    const distance = targetDate.getTime() - now;
 
-                                <!-- Next.js -->
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fab fa-react"></i>
-                                    </div>
-                                    <span>Next.js</span>
-                                </div>
+                    if (distance < 0) {
+                        // Countdown finished
+                        document.getElementById('days').textContent = '00';
+                        document.getElementById('hours').textContent = '00';
+                        document.getElementById('minutes').textContent = '00';
+                        document.getElementById('seconds').textContent = '00';
+                        return;
+                    }
 
-                                <!-- NativeScript -->
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fas fa-mobile-alt"></i>
-                                    </div>
-                                    <span>NativeScript</span>
-                                </div>
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                                <!-- Vue.js -->
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fab fa-vuejs"></i>
-                                    </div>
-                                    <span>Vue.js</span>
-                                </div>
+                    document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+                }
 
-                                <!-- Svelte -->
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fas fa-fire"></i>
-                                    </div>
-                                    <span>Svelte</span>
-                                </div>
+                // Update countdown immediately and then every second
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
+            }
 
-                                <!-- Angular -->
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fab fa-angular"></i>
-                                    </div>
-                                    <span>Angular</span>
-                                </div>
+            // Initialize animations when page loads
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(() => {
+                    animateStaggeredText();
+                    startCountdown();
+                }, 300);
+            });
 
-                                <!-- Python -->
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fab fa-python"></i>
-                                    </div>
-                                    <span>Python</span>
-                                </div>
-
-                                <!-- Java -->
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fab fa-java"></i>
-                                    </div>
-                                    <span>Java</span>
-                                </div>
-
-                                <!-- Machine Learning -->
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fas fa-brain"></i>
-                                    </div>
-                                    <span>Machine Learning</span>
-                                </div>
-
-                                <!-- REST API -->
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fas fa-server"></i>
-                                    </div>
-                                    <span>REST API</span>
-                                </div>
-
-                                <!-- GraphQL -->
-                                <div class="skill-item">
-                                    <div class="skill-icon">
-                                        <i class="fas fa-project-diagram"></i>
-                                    </div>
-                                    <span>GraphQL</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="experience" class="experience">
-                    <h2 class="section-title">Experience</h2>
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-item-header">
-                                <h3>Job Title</h3>
-                                <p class="company">Company Name</p>
-                                <p class="date">Month Year - Present</p>
-                            </div>
-                            <div class="timeline-item-content">
-                                <p>
-                                    Description of your responsibilities and
-                                    achievements in this role.
-                                </p>
-                                <ul class="tech-used">
-                                    <li>Technology 1</li>
-                                    <li>Technology 2</li>
-                                    <li>Technology 3</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-item-header">
-                                <h3>Previous Job Title</h3>
-                                <p class="company">Previous Company</p>
-                                <p class="date">Month Year - Month Year</p>
-                            </div>
-                            <div class="timeline-item-content">
-                                <p>
-                                    Description of your responsibilities and
-                                    achievements in this role.
-                                </p>
-                                <ul class="tech-used">
-                                    <li>Technology 1</li>
-                                    <li>Technology 2</li>
-                                    <li>Technology 3</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- Add more timeline items as needed -->
-                    </div>
-                </section>
-
-                <section id="projects" class="projects">
-                    <h2 class="section-title">Projects</h2>
-                    <div class="projects-grid">
-                        <div class="project-card">
-                            <h3 class="project-title">Project Name</h3>
-                            <p class="project-description">
-                                Description of the project, what it does, and
-                                your role in it.
-                            </p>
-                            <ul class="project-tech">
-                                <li>React</li>
-                                <li>Node.js</li>
-                                <li>MongoDB</li>
-                            </ul>
-                            <div class="project-links">
-                                <a
-                                    href="#"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    ><i class="fab fa-github"></i> Code</a
-                                >
-                                <a
-                                    href="#"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    ><i class="fas fa-external-link-alt"></i>
-                                    Live</a
-                                >
-                            </div>
-                        </div>
-                        <div class="project-card">
-                            <h3 class="project-title">Another Project</h3>
-                            <p class="project-description">
-                                Description of the project, what it does, and
-                                your role in it.
-                            </p>
-                            <ul class="project-tech">
-                                <li>JavaScript</li>
-                                <li>HTML/CSS</li>
-                                <li>API Integration</li>
-                            </ul>
-                            <div class="project-links">
-                                <a
-                                    href="#"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    ><i class="fab fa-github"></i> Code</a
-                                >
-                                <a
-                                    href="#"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    ><i class="fas fa-external-link-alt"></i>
-                                    Live</a
-                                >
-                            </div>
-                        </div>
-                        <!-- Add more project cards as needed -->
-                    </div>
-                </section>
-
-                <section id="contact" class="contact">
-                    <div class="about-text">
-                        <h2 class="section-title">Get In Touch</h2>
-                        <p>
-                            I'm currently open to new opportunities and
-                            collaborations. Feel free to reach out if you'd like
-                            to work together or just say hello!
-                        </p>
-                        <a
-                            href="mailto:your.email@example.com"
-                            class="contact-button"
-                            >Say Hello</a
-                        >
-                    </div>
-                </section>
-            </main>
-
-            <footer>
-                <p>Designed & Built Meh!</p>
-                <p>&copy; 2025</p>
-            </footer>
-        </div>
-
-        
-
-        <!-- Theme Toggle Button -->
-        <div class="theme-toggle" id="themeToggle">
-            <i class="fas fa-sun"></i>
-        </div>
-
-        <script src="js/main.js"></script>
+            // Add some interactive effects
+            document.addEventListener('mousemove', (e) => {
+                const chars = document.querySelectorAll('.staggered-text .char');
+                const mouseX = e.clientX / window.innerWidth;
+                const mouseY = e.clientY / window.innerHeight;
+                
+                chars.forEach((char, index) => {
+                    const delay = index * 50;
+                    setTimeout(() => {
+                        const xOffset = (mouseX - 0.5) * 20;
+                        const yOffset = (mouseY - 0.5) * 20;
+                        char.style.transform = `translateY(0) translateX(${xOffset * 0.1}px)`;
+                    }, delay);
+                });
+            });
+        </script>
     </body>
 </html>
