@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Coming Soon - Emmanuel Micaiah Afriyie</title>
+        <title>Faithology</title>
         <meta
             name="description"
             content="Something amazing is coming soon. Stay tuned!"
@@ -20,6 +20,7 @@
                 --bg-primary-dark: #0a0a0f;
                 --text-primary-dark: #e4e4e7;
                 --text-secondary-dark: #a1a1aa;
+                --cursor-blink-speed: 0.7s;
                 --accent-primary: #6366f1;
                 --accent-secondary: #8b5cf6;
                 --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
@@ -44,20 +45,26 @@
                 position: relative;
             }
 
-            /* Background Pattern */
+            /* Background Text */
             body::before {
-                content: '';
+                content: 'Faithology';
                 position: fixed;
                 top: 0;
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: 
-                    radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-                    radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-                    radial-gradient(circle at 40% 40%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: clamp(10rem, 30vw, 25rem);
+                font-weight: 900;
+                letter-spacing: -0.05em;
+                color: rgba(99, 102, 241, 0.05);
+                transform: rotate(-10deg);
                 pointer-events: none;
                 z-index: -1;
+                overflow: hidden;
+                white-space: nowrap;
             }
 
             .container {
@@ -157,6 +164,55 @@
                 letter-spacing: 0.05em;
             }
 
+            /* Typing Animation Styles */
+            .typing-animation {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 5rem;
+                margin-bottom: 2.5rem;
+            }
+            
+            .typing-text {
+                font-size: 2.5rem;
+                font-weight: 700;
+                color: var(--text-primary-dark);
+                text-align: center;
+            }
+            
+            .cursor {
+                display: inline-block;
+                width: 5px;
+                height: 2.2em;
+                background-color: var(--text-primary-dark);
+                animation: blink var(--cursor-blink-speed) infinite;
+                margin-left: 6px;
+                position: relative;
+                top: 4px;
+                border-radius: 1px;
+            }
+            
+            @keyframes blink {
+                0%, 100% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0;
+                }
+            }
+            
+            /* Countdown styles */
+            .countdown-container {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.8s ease 1s;
+            }
+            
+            .countdown-container.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
             .countdown-subtitle {
                 color: var(--text-secondary-dark);
                 font-size: 1.1rem;
@@ -169,6 +225,50 @@
             .countdown-subtitle.show {
                 opacity: 1;
                 transform: translateY(0);
+            }
+            
+            /* Loading Bar Styles */
+            .loading-bar-container {
+                margin: 1.5rem auto 0;
+                text-align: center;
+                width: 80%;
+                max-width: 600px;
+                opacity: 0;
+                transform: translateY(10px);
+                transition: all 0.8s ease 3s;
+            }
+            
+            .loading-bar-container.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
+            .loading-bar {
+                height: 8px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 20px;
+                margin-bottom: 10px;
+                overflow: hidden;
+                position: relative;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) inset;
+            }
+            
+            .loading-bar-progress {
+                position: absolute;
+                height: 100%;
+                width: 0%;
+                left: 0;
+                top: 0;
+                background: var(--accent-gradient);
+                border-radius: 20px;
+                transition: width 1s ease;
+                box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+            }
+            
+            .loading-percentage {
+                font-size: 0.9rem;
+                color: var(--text-secondary-dark);
+                font-weight: 500;
             }
 
             /* Resume Button */
@@ -265,21 +365,11 @@
     </head>
     <body>
         <div class="container">
-            <!-- Staggered Text -->
-            <div class="staggered-text" id="staggeredText">
-                <div class="word">
-                    <span class="char">C</span>
-                    <span class="char">o</span>
-                    <span class="char">m</span>
-                    <span class="char">i</span>
-                    <span class="char">n</span>
-                    <span class="char">g</span>
-                </div>
-                <div class="word">
-                    <span class="char">S</span>
-                    <span class="char">o</span>
-                    <span class="char">o</span>
-                    <span class="char">n</span>
+            <!-- Typing Animation Text -->
+            <div class="typing-animation" id="typingAnimation">
+                <div class="typing-text">
+                    <span class="typed-text" id="typedPhrases"></span>
+                    <span class="cursor"></span>
                 </div>
             </div>
 
@@ -304,74 +394,161 @@
                     </div>
                 </div>
                 <div class="countdown-subtitle" id="countdownSubtitle">
-                    Something amazing is on the way...
+                    Faithology is Under Construction...
+                </div>
+                <!-- Loading Progress Bar -->
+                <div class="loading-bar-container" id="loadingBarContainer">
+                    <div class="loading-bar" id="loadingBar">
+                        <div class="loading-bar-progress" id="loadingBarProgress"></div>
+                    </div>
+                    <div class="loading-percentage" id="loadingPercentage">0%</div>
                 </div>
             </div>
 
             <!-- Resume Button -->
             <div class="resume-button" id="resumeButton">
-                <a href="index.html" class="resume-btn">
-                    <span>Click to view minimalistic resume</span>
+                <a href="minimalistic.html" class="resume-btn">
+                    <span>Click to view minimalistic Resume</span>
                     <span class="arrow">→</span>
                 </a>
             </div>
         </div>
 
         <script>
-            // Staggered text animation
-            function animateStaggeredText() {
-                const chars = document.querySelectorAll('.staggered-text .char');
+            // Typing animation
+            let phrases = [
+                "Something 3D is on its way",
+                "A Redefined Look",
+                "Simple and Catchy",
+                "Stay Tuned!"
+            ];
+            let phraseIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let typingDelay = 100; // Typing speed
+            let deletingDelay = 50; // Deleting speed
+            let newPhraseDelay = 2000; // Delay before typing a new phrase
+            
+            function typeAnimation() {
+                const typedElement = document.getElementById('typedPhrases');
+                const currentPhrase = phrases[phraseIndex];
                 
-                chars.forEach((char, index) => {
+                if (!isDeleting && charIndex < currentPhrase.length) {
+                    // Typing
+                    typedElement.textContent += currentPhrase.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeAnimation, typingDelay);
+                } else if (isDeleting && charIndex > 0) {
+                    // Deleting
+                    typedElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                    charIndex--;
+                    setTimeout(typeAnimation, deletingDelay);
+                } else {
+                    // Switch between typing and deleting
+                    isDeleting = !isDeleting;
+                    
+                    if (!isDeleting) {
+                        // Move to next phrase when done deleting
+                        phraseIndex = (phraseIndex + 1) % phrases.length;
+                        setTimeout(typeAnimation, typingDelay);
+                    } else {
+                        // Pause before deleting
+                        setTimeout(typeAnimation, newPhraseDelay);
+                    }
+                }
+                
+                // Trigger countdown after first phrase is fully typed
+                if (phraseIndex === 0 && charIndex === currentPhrase.length && !isDeleting) {
                     setTimeout(() => {
-                        char.classList.add('animate');
-                    }, index * 100);
-                });
-
-                // Show countdown after text animation
-                setTimeout(() => {
-                    document.getElementById('countdownContainer').classList.add('show');
-                }, chars.length * 100 + 500);
-
-                // Show subtitle
-                setTimeout(() => {
-                    document.getElementById('countdownSubtitle').classList.add('show');
-                }, chars.length * 100 + 1000);
-
-                // Show resume button
-                setTimeout(() => {
-                    document.getElementById('resumeButton').classList.add('show');
-                }, chars.length * 100 + 1500);
+                        // Show the countdown container
+                        document.getElementById('countdownContainer').classList.add('show');
+                        startCountdown();
+                    }, 500);
+                    
+                    // Show subtitle after countdown appears
+                    setTimeout(() => {
+                        document.getElementById('countdownSubtitle').classList.add('show');
+                    }, 1000);
+                    
+                    // Trigger resume button animation
+                    setTimeout(() => {
+                        document.getElementById('resumeButton').classList.add('show');
+                    }, 1500);
+                }
             }
 
             // Countdown timer
             function startCountdown() {
-                // Set target date (30 days from now for demo purposes)
-                const targetDate = new Date();
-                targetDate.setDate(targetDate.getDate() + 30);
+                // Make sure countdown container is visible
+                const countdownContainer = document.getElementById('countdownContainer');
+                if (countdownContainer) {
+                    countdownContainer.classList.add('show');
+                }
+                
+                // Show loading bar container
+                const loadingBarContainer = document.getElementById('loadingBarContainer');
+                if (loadingBarContainer) {
+                    loadingBarContainer.classList.add('show');
+                }
+                
+                // Get loading bar elements
+                const loadingBarProgress = document.getElementById('loadingBarProgress');
+                const loadingPercentage = document.getElementById('loadingPercentage');
+
+                // Set fixed target date (100 days from June 9, 2025)
+                const targetDate = new Date('2025-09-17T13:28:31-05:00'); // 100 days from current time
+                
+                // Calculate total time period for loading bar (100 days in milliseconds)
+                const totalTime = 100 * 24 * 60 * 60 * 1000; // 100 days in milliseconds
+                const startDate = new Date('2025-06-09T13:28:31-05:00'); // Starting date
+                
+                // Get DOM elements
+                const daysEl = document.getElementById('days');
+                const hoursEl = document.getElementById('hours');
+                const minutesEl = document.getElementById('minutes');
+                const secondsEl = document.getElementById('seconds');
                 
                 function updateCountdown() {
+                    // Get current time
                     const now = new Date().getTime();
                     const distance = targetDate.getTime() - now;
 
                     if (distance < 0) {
                         // Countdown finished
-                        document.getElementById('days').textContent = '00';
-                        document.getElementById('hours').textContent = '00';
-                        document.getElementById('minutes').textContent = '00';
-                        document.getElementById('seconds').textContent = '00';
+                        daysEl.textContent = '00';
+                        hoursEl.textContent = '00';
+                        minutesEl.textContent = '00';
+                        secondsEl.textContent = '00';
                         return;
                     }
 
-                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    // Calculate time units
+                    const msInSecond = 1000;
+                    const msInMinute = msInSecond * 60;
+                    const msInHour = msInMinute * 60;
+                    const msInDay = msInHour * 24;
+                    
+                    // Calculate each time unit precisely
+                    const days = Math.floor(distance / msInDay);
+                    const hours = Math.floor((distance % msInDay) / msInHour);
+                    const minutes = Math.floor((distance % msInHour) / msInMinute);
+                    const seconds = Math.floor((distance % msInMinute) / msInSecond);
 
-                    document.getElementById('days').textContent = days.toString().padStart(2, '0');
-                    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-                    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-                    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+                    // Update the display with leading zeros for proper formatting
+                    daysEl.textContent = days.toString().padStart(2, '0');
+                    hoursEl.textContent = hours.toString().padStart(2, '0');
+                    minutesEl.textContent = minutes.toString().padStart(2, '0');
+                    secondsEl.textContent = seconds.toString().padStart(2, '0');
+                    
+                    // Calculate loading bar progress percentage
+                    const timeElapsed = now - startDate.getTime();
+                    const percentComplete = Math.min(Math.floor((timeElapsed / totalTime) * 100), 100);
+                    
+                    // Update loading bar width and percentage text
+                    if (loadingBarProgress && loadingPercentage) {
+                        loadingBarProgress.style.width = percentComplete + '%';
+                        loadingPercentage.textContent = percentComplete + '%';
+                    }
                 }
 
                 // Update countdown immediately and then every second
@@ -382,9 +559,8 @@
             // Initialize animations when page loads
             document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
-                    animateStaggeredText();
-                    startCountdown();
-                }, 300);
+                    typeAnimation();
+                }, 500);
             });
 
             // Add some interactive effects

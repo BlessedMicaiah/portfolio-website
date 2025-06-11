@@ -76,9 +76,13 @@ document.addEventListener('DOMContentLoaded', () => {
             x = viewportWidth - tooltipRect.width - margin;
         }
         
-        // Vertical positioning - move above if too close to bottom
+        // Always position tooltip below the element with a fixed offset
+        // This ensures consistent positioning that matches our CSS arrow
+        y = rect.bottom + 12;
+        
+        // If too close to bottom, adjust only as much as necessary
         if (y + tooltipRect.height > viewportHeight - margin) {
-            y = rect.top - tooltipRect.height - 12;
+            y = viewportHeight - tooltipRect.height - margin;
         }
         
         spatialTooltip.style.left = `${x}px`;
@@ -324,9 +328,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'Frontend Developer',
         'Web Developer', 
         'Web Designer',
-        'System Auto',
-        'UI/UX Designer',
-        'Full Stack Developer'
+        'System Automation Engineer',
+        'RAG Engineer'
     ];
     
     const typedSpan = document.getElementById('job-title-typed');

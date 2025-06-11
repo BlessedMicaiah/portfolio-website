@@ -9,9 +9,236 @@
             content="Personal portfolio showcasing projects and experience in web development"
         />
         <link rel="stylesheet" href="css/styles.css" />
+        <style>
+        /* Timeline Item Hover Effects */
+        .timeline-item {
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .timeline-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline-item::after {
+            content: 'Hover to preview website';
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .timeline-item:hover::after {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .timeline-item a {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            display: block;
+        }
+        
+        /* Website Preview Container */
+        .website-preview-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.75);
+        }
+        
+        .website-preview-container.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .website-preview-content {
+            width: 80%;
+            height: 80%;
+            max-width: 1200px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+        
+        .website-preview-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        .website-preview-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .website-preview-loading .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Coming Soon Notice Styles */
+        .coming-soon-notice {
+            margin: 3rem auto;
+            padding: 1rem;
+            max-width: 800px;
+            text-align: center;
+        }
+        
+        .notice-content {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(99, 102, 241, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-left: 4px solid var(--accent-color, #6366f1);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out forwards;
+        }
+        
+        .notice-icon {
+            font-size: 2rem;
+            color: var(--accent-color, #6366f1);
+            margin-bottom: 1rem;
+            opacity: 0.8;
+            animation: pulse 2s infinite;
+        }
+        
+        .notice-content p {
+            font-size: 1.1rem;
+            color: var(--text-primary-dark, #1f2937);
+            font-weight: 500;
+            line-height: 1.5;
+            margin: 0;
+        }
+        
+        .notice-content::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            animation: ripple 10s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+        
+        @keyframes ripple {
+            0% { transform: rotate(0deg); opacity: 0; }
+            25% { opacity: 0.3; }
+            50% { opacity: 0.1; }
+            75% { opacity: 0.3; }
+            100% { transform: rotate(360deg); opacity: 0; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Resume Download Button Styles */
+        .resume-download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-color, #6366f1);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .resume-download-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+        
+        .resume-download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(99, 102, 241, 0.35);
+        }
+        
+        .resume-download-btn:hover:before {
+            width: 100%;
+        }
+        
+        .resume-download-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 8px rgba(99, 102, 241, 0.2);
+        }
+        
+        .resume-download-btn i {
+            margin-right: 8px;
+            font-size: 1.1em;
+        }
+        </style>
         <link
             rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,19 +253,19 @@
             <div class="toolbar-container">
                 <div class="toolbar-links">
                     <a href="#home" class="toolbar-item active" data-tooltip="Home">
-                        <i class="fas fa-home"></i>
+                        <i class="fa-solid fa-house"></i>
                     </a>
                     <a href="#about" class="toolbar-item" data-tooltip="About">
-                        <i class="fas fa-user"></i>
+                        <i class="fa-solid fa-user"></i>
                     </a>
                     <a href="#experience" class="toolbar-item" data-tooltip="Experience">
-                        <i class="fas fa-briefcase"></i>
+                        <i class="fa-solid fa-briefcase"></i>
                     </a>
                     <a href="#projects" class="toolbar-item" data-tooltip="Projects">
-                        <i class="fas fa-code"></i>
+                        <i class="fa-solid fa-code"></i>
                     </a>
                     <a href="#contact" class="toolbar-item" data-tooltip="Contact">
-                        <i class="fas fa-envelope"></i>
+                        <i class="fa-solid fa-envelope"></i>
                     </a>
                 </div>
             </div>
@@ -60,23 +287,23 @@
         <div class="mobile-menu" id="mobileMenu">
             <div class="mobile-menu-links">
                 <a href="#home" class="mobile-menu-item active">
-                    <i class="fas fa-home"></i>
+                    <i class="fa-solid fa-house"></i>
                     <span>Home</span>
                 </a>
                 <a href="#about" class="mobile-menu-item">
-                    <i class="fas fa-user"></i>
+                    <i class="fa-solid fa-user"></i>
                     <span>About</span>
                 </a>
                 <a href="#experience" class="mobile-menu-item">
-                    <i class="fas fa-briefcase"></i>
+                    <i class="fa-solid fa-briefcase"></i>
                     <span>Experience</span>
                 </a>
                 <a href="#projects" class="mobile-menu-item">
-                    <i class="fas fa-code"></i>
+                    <i class="fa-solid fa-code"></i>
                     <span>Projects</span>
                 </a>
                 <a href="#contact" class="mobile-menu-item">
-                    <i class="fas fa-envelope"></i>
+                    <i class="fa-solid fa-envelope"></i>
                     <span>Contact</span>
                 </a>
             </div>
@@ -88,6 +315,9 @@
         <div class="container">
             <main>
                 <section id="home" class="hero">
+                    <a href="attached_assets/My_Resume.pdf" target="_blank" rel="noopener noreferrer" class="resume-download-btn" download>
+                        <i class="fas fa-file-pdf"></i> Download Resume
+                    </a>
                     <h1>Emmanuel Micaiah Afriyie</h1>
                     <div class="job-title-row">
                         <span class="iam-a">I AM a</span>
@@ -103,13 +333,13 @@
                     </p>
                     <div class="social-links">
                         <a
-                            href="https://github.com/yourusername"
+                            href="https://github.com/BlessedMicaiah"
                             target="_blank"
                             rel="noopener noreferrer"
                             ><i class="fab fa-github"></i
                         ></a>
                         <a
-                            href="https://linkedin.com/in/yourusername"
+                            href="https://www.linkedin.com/in/micaiah-afriyie/"
                             target="_blank"
                             rel="noopener noreferrer"
                             ><i class="fab fa-linkedin"></i
@@ -118,19 +348,21 @@
                             href="https://twitter.com/yourusername"
                             target="_blank"
                             rel="noopener noreferrer"
-                            ><i class="fab fa-x"></i
+                            ><i class="fab fa-x-twitter"></i
                         ></a>
-                        <a href="mailto:your.email@example.com"
+                        <a href="mailto:muchfaith@outlook.com"
                             ><i class="fas fa-envelope"></i
                         ></a>
                     </div>
                 </section>
 
                 <section id="about" class="about">
-                    <h2 class="section-title">About</h2>
+                    <h2 class="section-title">About Me</h2>
                     <div class="about-section">
                         <div class="about-content">
                             <div class="about-text">
+                                <p>
+                                    You can also call me Faithology—my tech name—a lover of truth and people.                                </p>
                                 <p>
                                     I'm a developer passionate about creating
                                     intuitive, user-friendly applications that
@@ -140,14 +372,7 @@
                                     functional and aesthetically pleasing.
                                 </p>
                                 <p>
-                                    Currently, I'm [your current position] at
-                                    [your current company], where I work on
-                                    [brief description of what you do].
-                                </p>
-                                <p>
-                                    When I'm not coding, you can find me [your
-                                    hobbies or interests].
-                                </p>
+                                    I strongly believe that if everyone understood what true love really is, the world would be a much better place. I’m confident that this understanding could help break down racial and ethnic barriers, allowing people to coexist peacefully.                                </p>
                             </div>
                         </div>
 
@@ -311,41 +536,87 @@
                     <h2 class="section-title">Experience</h2>
                     <div class="timeline">
                         <div class="timeline-item">
+                            <a href="https://www.gentletouchhhc.com/" target="_blank" rel="noopener noreferrer">
                             <div class="timeline-item-header">
-                                <h3>Job Title</h3>
-                                <p class="company">Company Name</p>
-                                <p class="date">Month Year - Present</p>
+                                <h3>Web Designer</h3>
+                                <p class="company">Gentle Touch Home Healthcare</p>
+                                <p class="date">June 2024</p>
                             </div>
                             <div class="timeline-item-content">
                                 <p>
-                                    Description of your responsibilities and
-                                    achievements in this role.
+                                    Designed and developed responsive, and user-friendly 
+                                    website with integrated CMS and blog features for the Agency.
                                 </p>
                                 <ul class="tech-used">
-                                    <li>Technology 1</li>
-                                    <li>Technology 2</li>
-                                    <li>Technology 3</li>
+                                    <li>Javascript</li>
+                                    <li>Wix</li>
                                 </ul>
                             </div>
+                            </a>
                         </div>
+
                         <div class="timeline-item">
+                            <a href="https://everlastingcustomprint.com/" target="_blank" rel="noopener noreferrer">
                             <div class="timeline-item-header">
-                                <h3>Previous Job Title</h3>
-                                <p class="company">Previous Company</p>
-                                <p class="date">Month Year - Month Year</p>
+                                <h3>Web Developer</h3>
+                                <p class="company">Everlasting Custom Print</p>
+                                <p class="date">November 2024</p>
                             </div>
                             <div class="timeline-item-content">
                                 <p>
-                                    Description of your responsibilities and
-                                    achievements in this role.
+                                    Developed and integrated most of the frontend components used throughout the website.
                                 </p>
                                 <ul class="tech-used">
-                                    <li>Technology 1</li>
-                                    <li>Technology 2</li>
-                                    <li>Technology 3</li>
+                                    <li>Javascript</li>
+                                    <li>React</li>
+                                    <li>Webpack</li>
+                                    <li>Wordpress</li>
+                                    
                                 </ul>
                             </div>
+                            </a>
                         </div>
+
+                        <div class="timeline-item">
+                            <a href="https://www.cechicagosouth.org/" target="_blank" rel="noopener noreferrer">
+                            <div class="timeline-item-header">
+                                <h3>Web Designer</h3>
+                                <p class="company">Christ Embassy Chicago</p>
+                                <p class="date">April 2024</p>
+                            </div>
+                            <div class="timeline-item-content">
+                                <p>
+                                    Made modifications to the website to improve its 
+                                    functionality and user experience as per the client's requirements.
+                                </p>
+                                <ul class="tech-used">
+                                    <li>Javascript</li>
+                                    <li>Wix</li>
+                                </ul>
+                            </div>
+                            </a>
+                        </div>
+
+                        <div class="timeline-item">
+                            <a href="https://newdelhi.foreignaffairs.gov.ng/" target="_blank" rel="noopener noreferrer">
+                            <div class="timeline-item-header">
+                                <h3>Frontend Developer</h3>
+                                <p class="company">Nigerian High Commission India</p>
+                                <p class="date">August 2021 - March 2022</p>
+                            </div>
+                            <div class="timeline-item-content">
+                                <p>
+                                    I was responsible for developing the landing page and 
+                                    integrating the application forms page with the High Commission’s external database.                                </p>
+                                <ul class="tech-used">
+                                    <li>Php</li>
+                                    <li>Javascript</li>
+                                    <li>HTML, CSS and Sass</li>
+                                </ul>
+                            </div>
+                            </a>
+                        </div>
+                        
                         <!-- Add more timeline items as needed -->
                     </div>
                 </section>
@@ -354,15 +625,110 @@
                     <h2 class="section-title">Projects</h2>
                     <div class="projects-grid">
                         <div class="project-card">
-                            <h3 class="project-title">Project Name</h3>
+                            <h3 class="project-title">Church Management System</h3>
                             <p class="project-description">
-                                Description of the project, what it does, and
-                                your role in it.
+                                Church Management System A powerful and user-friendly system to streamline church operations, manage members,
+                                 track finances, and organize events efficiently.
                             </p>
                             <ul class="project-tech">
+                                <li>Vuejs</li>
+                                <li>Node.js</li>
+                                <li>Ruby on Rails</li>
+                                <li>PostgreSQL</li>
+                                <li>Tailwind CSS</li>
+                            </ul>
+                            <div class="project-links">
+                                <a
+                                    href="https://github.com/BlessedMicaiah/Church-Management-System.git"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    ><i class="fab fa-github"></i> Code</a
+                                >
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    ><i class="fas fa-external-link-alt"></i>
+                                    Live</a
+                                >
+                            </div>
+                        </div>
+
+                        <div class="project-card">
+                            <h3 class="project-title">HMS</h3>
+                            <p class="project-description">
+                                A comprehensive healthcare management solution designed to help doctors efficiently manage and care for their patients.
+                            </p>
+                            <ul class="project-tech">
+                                <li>JavaScript</li>
+                                <li>HTML/CSS</li>
+                                <li>Flask</li>
+                                <li>Python</li>
+                                <li>REST API</li>
                                 <li>React</li>
                                 <li>Node.js</li>
-                                <li>MongoDB</li>
+                                <li>TypeScript</li>
+                                <li>PostgreSQL</li>
+                            </ul>
+                            <div class="project-links">
+                                <a
+                                    href="https://github.com/BlessedMicaiah/HMS_Project.git"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    ><i class="fab fa-github"></i> Code</a
+                                >
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    ><i class="fas fa-external-link-alt"></i>
+                                    Live</a
+                                >
+                            </div>
+                        </div>
+
+                        <div class="project-card">
+                            <h3 class="project-title">Sharmah</h3>
+                            <p class="project-description">
+                                Sharma is a web-based chatbot built with Python and Flask that provides a friendly conversational interface for users.
+                            </p>
+                            <ul class="project-tech">
+                                <li>Python</li>
+                                <li>Flask</li>
+                                <li>JavaScript</li>
+                                <li>HTML/CSS</li>
+                                <li>RAG</li>
+                            </ul>
+                            <div class="project-links">
+                                <a
+                                    href="https://github.com/BlessedMicaiah/Sharma.git"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    ><i class="fab fa-github"></i> Code</a
+                                >
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    ><i class="fas fa-external-link-alt"></i>
+                                    Live</a
+                                >
+                            </div>
+                        </div>
+
+                        <div class="project-card">
+                            <h3 class="project-title">OnC</h3>
+                            <p class="project-description">
+                                A model and intuitive platform designed to empower learners of all backgrounds through interactive lessons,
+                                 real-world applications, and personalized learning paths
+                            </p>
+                            <ul class="project-tech">
+                                <li>JavaScript</li>
+                                <li>HTML/CSS</li>
+                                <li>ReactJS</li>
+                                <li>Three.js</li>
+                                <li>Node.js</li>
+                                <li>PostgreSQL</li>
                             </ul>
                             <div class="project-links">
                                 <a
@@ -380,20 +746,83 @@
                                 >
                             </div>
                         </div>
+
                         <div class="project-card">
-                            <h3 class="project-title">Another Project</h3>
+                            <h3 class="project-title">Advanced Movie Recommender</h3>
                             <p class="project-description">
-                                Description of the project, what it does, and
-                                your role in it.
+                                A smart movie recommendation system that combines different machine learning 
+                                techniques to understand your tastes and suggest movies you’ll truly enjoy.
                             </p>
                             <ul class="project-tech">
-                                <li>JavaScript</li>
-                                <li>HTML/CSS</li>
-                                <li>API Integration</li>
+                                <li>ReactJS</li>
+                                <li>SASS/SCSS</li>
+                                <li>NodeJs</li>
+                                <li>Python</li>
+                                <li>Flask</li>
+                                <li>Docker</li>
+                                <li>Bash</li>
+                                <li>Machine Learning</li>
                             </ul>
                             <div class="project-links">
                                 <a
                                     href="#"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    ><i class="fab fa-github"></i> Code</a
+                                >
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    ><i class="fas fa-external-link-alt"></i>
+                                    Live</a
+                                >
+                            </div>
+                        </div>
+
+                        <div class="project-card">
+                            <h3 class="project-title">Affecto</h3>
+                            <p class="project-description">
+                                An Emotion Analytics Dashboard that uses 
+                                facial recognition to detect and analyze human emotions in real-time.
+                            </p>
+                            <ul class="project-tech">
+                                <li>JavaScript</li>
+                                <li>HTML/CSS</li>
+                                <li>Affectiva API</li>
+                                <li>Python</li>
+                                <li>Pydantic</li>
+                                <li>Chart.js</li>
+                            </ul>
+                            <div class="project-links">
+                                <a
+                                    href="https://github.com/BlessedMicaiah/Affecto.git"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    ><i class="fab fa-github"></i> Code</a
+                                >
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    ><i class="fas fa-external-link-alt"></i>
+                                    Live</a
+                                >
+                            </div>
+                        </div>
+
+                        <div class="project-card">
+                            <h3 class="project-title">My Personal Shell</h3>
+                            <p class="project-description">
+                                My_Personal_shell is a 
+                                Python script that implements a custom command-line interface.
+                            </p>
+                            <ul class="project-tech">
+                                <li>Python</li>
+                            </ul>
+                            <div class="project-links">
+                                <a
+                                    href="https://github.com/BlessedMicaiah/My_Personal_shell.git"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     ><i class="fab fa-github"></i> Code</a
@@ -411,6 +840,13 @@
                     </div>
                 </section>
 
+                <div class="coming-soon-notice">
+                    <div class="notice-content">
+                        <div class="notice-icon"><i class="fas fa-hourglass-half"></i></div>
+                        <p>The remaining resume contents will be added once they are live and accessible.</p>
+                    </div>
+                </div>
+
                 <section id="contact" class="contact">
                     <div class="about-text">
                         <h2 class="section-title">Get In Touch</h2>
@@ -420,7 +856,7 @@
                             to work together or just say hello!
                         </p>
                         <a
-                            href="mailto:your.email@example.com"
+                            href="mailto:muchfaith@outlook.com"
                             class="contact-button"
                             >Say Hello</a
                         >
@@ -429,12 +865,17 @@
             </main>
 
             <footer>
-                <p>Designed & Built Meh!</p>
+                <p>Designed & Built Faithology</p>
                 <p>&copy; 2025</p>
             </footer>
         </div>
 
         
+
+        <!-- Back Button -->
+        <a href="index.html" class="back-button" title="Back to Home">
+            <i class="fas fa-arrow-left"></i>
+        </a>
 
         <!-- Theme Toggle Button -->
         <div class="theme-toggle" id="themeToggle">
@@ -442,5 +883,93 @@
         </div>
 
         <script src="js/main.js"></script>
+        
+        <!-- Website Preview Container -->
+        <div class="website-preview-container" id="websitePreviewContainer">
+            <div class="website-preview-content">
+                <iframe class="website-preview-frame" id="websitePreviewFrame" src="" title="Website Preview"></iframe>
+            </div>
+            <div class="website-preview-loading" id="websitePreviewLoading">
+                <div class="spinner"></div>
+                <p>Loading preview...</p>
+            </div>
+        </div>
+        
+        <script>
+            // Handle website preview on timeline item hover
+            document.addEventListener('DOMContentLoaded', function() {
+                // Get all timeline items with links
+                const timelineItems = document.querySelectorAll('.timeline-item');
+                const previewContainer = document.getElementById('websitePreviewContainer');
+                const previewFrame = document.getElementById('websitePreviewFrame');
+                const previewLoading = document.getElementById('websitePreviewLoading');
+                
+                let hoverTimer;
+                let activeItem = null;
+                
+                // Add event listeners to timeline items
+                timelineItems.forEach(item => {
+                    const link = item.querySelector('a');
+                    if (!link) return;
+                    
+                    const url = link.getAttribute('href');
+                    
+                    // Show preview on hover after a short delay
+                    item.addEventListener('mouseenter', function() {
+                        if (activeItem === item) return;
+                        
+                        hoverTimer = setTimeout(() => {
+                            // Show loading indicator
+                            previewLoading.style.display = 'block';
+                            previewFrame.style.opacity = '0';
+                            
+                            // Set the iframe src
+                            previewFrame.src = url;
+                            
+                            // Show the preview container
+                            previewContainer.classList.add('show');
+                            
+                            activeItem = item;
+                            
+                            // When iframe loads, hide loading indicator
+                            previewFrame.onload = function() {
+                                previewLoading.style.display = 'none';
+                                previewFrame.style.opacity = '1';
+                            };
+                        }, 500); // 500ms delay before showing preview
+                    });
+                    
+                    item.addEventListener('mouseleave', function() {
+                        clearTimeout(hoverTimer);
+                        
+                        // If this was the active item, hide the preview after a delay
+                        if (activeItem === item) {
+                            setTimeout(() => {
+                                if (activeItem === item) {
+                                    previewContainer.classList.remove('show');
+                                    activeItem = null;
+                                    
+                                    // Reset iframe src after animation completes
+                                    setTimeout(() => {
+                                        previewFrame.src = '';
+                                    }, 300);
+                                }
+                            }, 300); // 300ms delay before hiding
+                        }
+                    });
+                });
+                
+                // Hide preview when clicking outside
+                previewContainer.addEventListener('click', function() {
+                    previewContainer.classList.remove('show');
+                    activeItem = null;
+                    
+                    // Reset iframe src after animation completes
+                    setTimeout(() => {
+                        previewFrame.src = '';
+                    }, 300);
+                });
+            });
+        </script>
     </body>
 </html>
