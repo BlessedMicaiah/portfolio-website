@@ -120,7 +120,7 @@
             .countdown {
                 display: flex;
                 justify-content: center;
-                gap: 2rem;
+                gap: clamp(1rem, 3vw, 2rem);
                 margin-bottom: 1rem;
                 flex-wrap: wrap;
             }
@@ -132,9 +132,9 @@
                 background: rgba(255, 255, 255, 0.05);
                 border: 1px solid rgba(255, 255, 255, 0.1);
                 border-radius: 16px;
-                padding: 1.5rem 1rem;
+                padding: clamp(1rem, 2vw, 1.5rem) clamp(0.5rem, 1.5vw, 1rem);
                 backdrop-filter: blur(20px);
-                min-width: 100px;
+                min-width: clamp(80px, 20vw, 100px);
                 transition: all 0.3s ease;
             }
 
@@ -145,7 +145,7 @@
             }
 
             .countdown-number {
-                font-size: clamp(2rem, 4vw, 3rem);
+                font-size: clamp(1.5rem, 3vw, 3rem);
                 font-weight: 800;
                 background: var(--accent-gradient);
                 -webkit-background-clip: text;
