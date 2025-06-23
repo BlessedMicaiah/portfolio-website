@@ -506,3 +506,242 @@ document.addEventListener('DOMContentLoaded', () => {
         ticking = false;
     });
 });
+
+// Handle website preview on timeline item hover
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all timeline items with links
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    const previewContainer = document.getElementById('websitePreviewContainer');
+    const previewFrame = document.getElementById('websitePreviewFrame');
+    const previewLoading = document.getElementById('websitePreviewLoading');
+    
+    let hoverTimer;
+    let activeItem = null;
+    
+    // Add event listeners to timeline items
+    timelineItems.forEach(item => {
+        const link = item.querySelector('a');
+        if (!link) return;
+        
+        const url = link.getAttribute('href');
+        
+        // Show preview on hover after a short delay
+        item.addEventListener('mouseenter', function() {
+            if (activeItem === item) return;
+            
+            hoverTimer = setTimeout(() => {
+                // Show loading indicator
+                previewLoading.style.display = 'block';
+                previewFrame.style.opacity = '0';
+                
+                // Set the iframe src
+                previewFrame.src = url;
+                
+                // Show the preview container
+                previewContainer.classList.add('show');
+                
+                activeItem = item;
+                
+                // When iframe loads, hide loading indicator
+                previewFrame.onload = function() {
+                    previewLoading.style.display = 'none';
+                    previewFrame.style.opacity = '1';
+                };
+            }, 500); // 500ms delay before showing preview
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            clearTimeout(hoverTimer);
+            
+            // If this was the active item, hide the preview after a delay
+            if (activeItem === item) {
+                setTimeout(() => {
+                    if (activeItem === item) {
+                        previewContainer.classList.remove('show');
+                        activeItem = null;
+                        
+                        // Reset iframe src after animation completes
+                        setTimeout(() => {
+                            previewFrame.src = '';
+                        }, 300);
+                    }
+                }, 300); // 300ms delay before hiding
+            }
+        });
+    });
+    
+    // Hide preview when clicking outside
+    previewContainer.addEventListener('click', function() {
+        previewContainer.classList.remove('show');
+        activeItem = null;
+        
+        // Reset iframe src after animation completes
+        setTimeout(() => {
+            previewFrame.src = '';
+        }, 300);
+    });
+});
+
+// Typing animation
+let phrases = [
+    "Something 3D is on its way",
+    "A Redefined Look",
+    "Simple and Catchy",
+    "Stay Tuned!"
+];
+let phraseIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+let typingDelay = 100; // Typing speed
+let deletingDelay = 50; // Deleting speed
+let newPhraseDelay = 2000; // Delay before typing a new phrase
+
+function typeAnimation() {
+    const typedElement = document.getElementById('typedPhrases');
+    const currentPhrase = phrases[phraseIndex];
+    
+    if (!isDeleting && charIndex < currentPhrase.length) {
+        // Typing
+        typedElement.textContent += currentPhrase.charAt(charIndex);
+        charIndex++;
+        setTimeout(typeAnimation, typingDelay);
+    } else if (isDeleting && charIndex > 0) {
+        // Deleting
+        typedElement.textContent = currentPhrase.substring(0, charIndex - 1);
+        charIndex--;
+        setTimeout(typeAnimation, deletingDelay);
+    } else {
+        // Switch between typing and deleting
+        isDeleting = !isDeleting;
+        
+        if (!isDeleting) {
+            // Move to next phrase when done deleting
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+            setTimeout(typeAnimation, typingDelay);
+        } else {
+            // Pause before deleting
+            setTimeout(typeAnimation, newPhraseDelay);
+        }
+    }
+    
+    // Trigger countdown after first phrase is fully typed
+    if (phraseIndex === 0 && charIndex === currentPhrase.length && !isDeleting) {
+        setTimeout(() => {
+            // Show the countdown container
+            document.getElementById('countdownContainer').classList.add('show');
+            startCountdown();
+        }, 500);
+        
+        // Show subtitle after countdown appears
+        setTimeout(() => {
+            document.getElementById('countdownSubtitle').classList.add('show');
+        }, 1000);
+        
+        // Trigger resume button animation
+        setTimeout(() => {
+            document.getElementById('resumeButton').classList.add('show');
+        }, 1500);
+    }
+}
+
+// Countdown timer
+function startCountdown() {
+    // Make sure countdown container is visible
+    const countdownContainer = document.getElementById('countdownContainer');
+    if (countdownContainer) {
+        countdownContainer.classList.add('show');
+    }
+    
+    // Show loading bar container
+    const loadingBarContainer = document.getElementById('loadingBarContainer');
+    if (loadingBarContainer) {
+        loadingBarContainer.classList.add('show');
+    }
+    
+    // Get loading bar elements
+    const loadingBarProgress = document.getElementById('loadingBarProgress');
+    const loadingPercentage = document.getElementById('loadingPercentage');
+
+    // Set fixed target date (100 days from June 9, 2025)
+    const targetDate = new Date('2025-09-17T13:28:31-05:00'); // 100 days from current time
+    
+    // Calculate total time period for loading bar (100 days in milliseconds)
+    const totalTime = 100 * 24 * 60 * 60 * 1000; // 100 days in milliseconds
+    const startDate = new Date('2025-06-09T13:28:31-05:00'); // Starting date
+    
+    // Get DOM elements
+    const daysEl = document.getElementById('days');
+    const hoursEl = document.getElementById('hours');
+    const minutesEl = document.getElementById('minutes');
+    const secondsEl = document.getElementById('seconds');
+    
+    function updateCountdown() {
+        // Get current time
+        const now = new Date().getTime();
+        const distance = targetDate.getTime() - now;
+
+        if (distance < 0) {
+            // Countdown finished
+            daysEl.textContent = '00';
+            hoursEl.textContent = '00';
+            minutesEl.textContent = '00';
+            secondsEl.textContent = '00';
+            return;
+        }
+
+        // Calculate time units
+        const msInSecond = 1000;
+        const msInMinute = msInSecond * 60;
+        const msInHour = msInMinute * 60;
+        const msInDay = msInHour * 24;
+        
+        // Calculate each time unit precisely
+        const days = Math.floor(distance / msInDay);
+        const hours = Math.floor((distance % msInDay) / msInHour);
+        const minutes = Math.floor((distance % msInHour) / msInMinute);
+        const seconds = Math.floor((distance % msInMinute) / msInSecond);
+
+        // Update the display with leading zeros for proper formatting
+        daysEl.textContent = days.toString().padStart(2, '0');
+        hoursEl.textContent = hours.toString().padStart(2, '0');
+        minutesEl.textContent = minutes.toString().padStart(2, '0');
+        secondsEl.textContent = seconds.toString().padStart(2, '0');
+        
+        // Calculate loading bar progress percentage
+        const timeElapsed = now - startDate.getTime();
+        const percentComplete = Math.min(Math.floor((timeElapsed / totalTime) * 100), 100);
+        
+        // Update loading bar width and percentage text
+        if (loadingBarProgress && loadingPercentage) {
+            loadingBarProgress.style.width = percentComplete + '%';
+            loadingPercentage.textContent = percentComplete + '%';
+        }
+    }
+
+    // Update countdown immediately and then every second
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+}
+
+// Initialize animations when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        typeAnimation();
+    }, 500);
+});
+
+// Add some interactive effects
+document.addEventListener('mousemove', (e) => {
+    const chars = document.querySelectorAll('.staggered-text .char');
+    const mouseX = e.clientX / window.innerWidth;
+    const mouseY = e.clientY / window.innerHeight;
+    
+    chars.forEach((char, index) => {
+        const delay = index * 50;
+        setTimeout(() => {
+            const xOffset = (mouseX - 0.5) * 20;
+            const yOffset = (mouseY - 0.5) * 20;
+            char.style.transform = `translateY(0) translateX(${xOffset * 0.1}px)`;
+        }, delay);
+    });
+});

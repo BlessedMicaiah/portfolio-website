@@ -1,0 +1,345 @@
+:root {
+    --bg-primary-dark: #0a0a0f;
+    --text-primary-dark: #e4e4e7;
+    --text-secondary-dark: #a1a1aa;
+    --cursor-blink-speed: 0.7s;
+    --accent-primary: #6366f1;
+    --accent-secondary: #8b5cf6;
+    --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: var(--bg-primary-dark);
+    color: var(--text-primary-dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Background Text */
+body::before {
+    content: 'Faithology';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(10rem, 30vw, 25rem);
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    color: rgba(99, 102, 241, 0.05);
+    transform: rotate(-10deg);
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.container {
+    text-align: center;
+    z-index: 1;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+/* Staggered Text Animation */
+.staggered-text {
+    font-size: clamp(3rem, 8vw, 8rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.staggered-text .word {
+    display: inline-block;
+    margin-right: 0.3em;
+    overflow: hidden;
+}
+
+.staggered-text .char {
+    display: inline-block;
+    transform: translateY(100%);
+    transition: transform 0.8s cubic-bezier(0.23, 1, 0.320, 1);
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.staggered-text .char.animate {
+    transform: translateY(0);
+}
+
+/* Countdown Styles */
+.countdown-container {
+    margin: 4rem 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s ease 2s;
+}
+
+.countdown-container.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: clamp(1rem, 3vw, 2rem);
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.countdown-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: clamp(1rem, 2vw, 1.5rem) clamp(0.5rem, 1.5vw, 1rem);
+    backdrop-filter: blur(20px);
+    min-width: clamp(80px, 20vw, 100px);
+    transition: all 0.3s ease;
+}
+
+.countdown-item:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--accent-primary);
+}
+
+.countdown-number {
+    font-size: clamp(1.5rem, 3vw, 3rem);
+    font-weight: 800;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.countdown-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary-dark);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Typing Animation Styles */
+.typing-animation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5rem;
+    margin-bottom: 2.5rem;
+}
+
+.typing-text {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary-dark);
+    text-align: center;
+}
+
+.cursor {
+    display: inline-block;
+    width: 5px;
+    height: 2.2em;
+    background-color: var(--text-primary-dark);
+    animation: blink var(--cursor-blink-speed) infinite;
+    margin-left: 6px;
+    position: relative;
+    top: 4px;
+    border-radius: 1px;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Countdown styles */
+.countdown-container {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease 1s;
+}
+
+.countdown-container.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.countdown-subtitle {
+    color: var(--text-secondary-dark);
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.8s ease 2.5s;
+}
+
+.countdown-subtitle.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Loading Bar Styles */
+.loading-bar-container {
+    margin: 1.5rem auto 0;
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.8s ease 3s;
+}
+
+.loading-bar-container.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.loading-bar {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) inset;
+}
+
+.loading-bar-progress {
+    position: absolute;
+    height: 100%;
+    width: 0%;
+    left: 0;
+    top: 0;
+    background: var(--accent-gradient);
+    border-radius: 20px;
+    transition: width 1s ease;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+}
+
+.loading-percentage {
+    font-size: 0.9rem;
+    color: var(--text-secondary-dark);
+    font-weight: 500;
+}
+
+/* Resume Button */
+.resume-button {
+    margin-top: 3rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease 3s;
+}
+
+.resume-button.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.resume-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 32px;
+    background: var(--accent-gradient);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 32px rgba(99, 102, 241, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.resume-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.resume-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(99, 102, 241, 0.4);
+}
+
+.resume-btn:hover::before {
+    opacity: 1;
+}
+
+.resume-btn:active {
+    transform: translateY(-2px);
+}
+
+.arrow {
+    transition: transform 0.3s ease;
+}
+
+.resume-btn:hover .arrow {
+    transform: translateX(4px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .countdown {
+        gap: 1rem;
+    }
+
+    .countdown-item {
+        padding: 1rem 0.75rem;
+        min-width: 80px;
+    }
+
+    .staggered-text {
+        margin-bottom: 1.5rem;
+    }
+
+    .countdown-container {
+        margin: 2rem 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .countdown {
+        gap: 0.75rem;
+    }
+
+    .countdown-item {
+        padding: 0.75rem 0.5rem;
+        min-width: 70px;
+    }
+}

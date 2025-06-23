@@ -9,233 +9,6 @@
             content="Personal portfolio showcasing projects and experience in web development"
         />
         <link rel="stylesheet" href="css/styles.css" />
-        <style>
-        /* Timeline Item Hover Effects */
-        .timeline-item {
-            position: relative;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .timeline-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        .timeline-item::after {
-            content: 'Hover to preview website';
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 12px;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            pointer-events: none;
-        }
-        
-        .timeline-item:hover::after {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .timeline-item a {
-            text-decoration: none;
-            color: inherit;
-            cursor: pointer;
-            display: block;
-        }
-        
-        /* Website Preview Container */
-        .website-preview-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: rgba(0, 0, 0, 0.75);
-        }
-        
-        .website-preview-container.show {
-            visibility: visible;
-            opacity: 1;
-        }
-        
-        .website-preview-content {
-            width: 80%;
-            height: 80%;
-            max-width: 1200px;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border-radius: 8px;
-            overflow: hidden;
-            background-color: #fff;
-        }
-        
-        .website-preview-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
-            transition: opacity 0.3s ease;
-            opacity: 0;
-        }
-        
-        .website-preview-loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #fff;
-            font-size: 18px;
-            font-weight: 500;
-            text-align: center;
-        }
-        
-        .website-preview-loading .spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-            margin-bottom: 10px;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Coming Soon Notice Styles */
-        .coming-soon-notice {
-            margin: 3rem auto;
-            padding: 1rem;
-            max-width: 800px;
-            text-align: center;
-        }
-        
-        .notice-content {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(99, 102, 241, 0.1) 100%);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-left: 4px solid var(--accent-color, #6366f1);
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-            position: relative;
-            overflow: hidden;
-            animation: fadeIn 1s ease-out forwards;
-        }
-        
-        .notice-icon {
-            font-size: 2rem;
-            color: var(--accent-color, #6366f1);
-            margin-bottom: 1rem;
-            opacity: 0.8;
-            animation: pulse 2s infinite;
-        }
-        
-        .notice-content p {
-            font-size: 1.1rem;
-            color: var(--text-primary-dark, #1f2937);
-            font-weight: 500;
-            line-height: 1.5;
-            margin: 0;
-        }
-        
-        .notice-content::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
-            opacity: 0;
-            animation: ripple 10s linear infinite;
-            z-index: -1;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.8; }
-        }
-        
-        @keyframes ripple {
-            0% { transform: rotate(0deg); opacity: 0; }
-            25% { opacity: 0.3; }
-            50% { opacity: 0.1; }
-            75% { opacity: 0.3; }
-            100% { transform: rotate(360deg); opacity: 0; }
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Resume Download Button Styles */
-        .resume-download-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--accent-color, #6366f1);
-            color: white;
-            padding: 0.7rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-        
-        .resume-download-btn:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-            z-index: -1;
-        }
-        
-        .resume-download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 15px rgba(99, 102, 241, 0.35);
-        }
-        
-        .resume-download-btn:hover:before {
-            width: 100%;
-        }
-        
-        .resume-download-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 3px 8px rgba(99, 102, 241, 0.2);
-        }
-        
-        .resume-download-btn i {
-            margin-right: 8px;
-            font-size: 1.1em;
-        }
-        </style>
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
@@ -840,14 +613,14 @@
                                 >
                             </div>
                         </div>
-                        <!-- Add more project cards as needed -->
+                       
                     </div>
                 </section>
 
                 <div class="coming-soon-notice">
                     <div class="notice-content">
                         <div class="notice-icon"><i class="fas fa-hourglass-half"></i></div>
-                        <p>The remaining resume contents will be added once they are live and accessible.</p>
+                        <p>The remaining resume contents will be added once they are live and accessible <br>(I need approval from the businesses that I worked with on their product).</p>
                     </div>
                 </div>
 
@@ -873,9 +646,6 @@
                 <p>&copy; 2025</p>
             </footer>
         </div>
-
-
-
         <!-- Back Button -->
         <a href="index.html" class="back-button" title="Back to Home">
             <i class="fas fa-arrow-left"></i>
@@ -898,82 +668,5 @@
                 <p>Loading preview...</p>
             </div>
         </div>
-        
-        <script>
-            // Handle website preview on timeline item hover
-            document.addEventListener('DOMContentLoaded', function() {
-                // Get all timeline items with links
-                const timelineItems = document.querySelectorAll('.timeline-item');
-                const previewContainer = document.getElementById('websitePreviewContainer');
-                const previewFrame = document.getElementById('websitePreviewFrame');
-                const previewLoading = document.getElementById('websitePreviewLoading');
-                
-                let hoverTimer;
-                let activeItem = null;
-                
-                // Add event listeners to timeline items
-                timelineItems.forEach(item => {
-                    const link = item.querySelector('a');
-                    if (!link) return;
-                    
-                    const url = link.getAttribute('href');
-                    
-                    // Show preview on hover after a short delay
-                    item.addEventListener('mouseenter', function() {
-                        if (activeItem === item) return;
-                        
-                        hoverTimer = setTimeout(() => {
-                            // Show loading indicator
-                            previewLoading.style.display = 'block';
-                            previewFrame.style.opacity = '0';
-                            
-                            // Set the iframe src
-                            previewFrame.src = url;
-                            
-                            // Show the preview container
-                            previewContainer.classList.add('show');
-                            
-                            activeItem = item;
-                            
-                            // When iframe loads, hide loading indicator
-                            previewFrame.onload = function() {
-                                previewLoading.style.display = 'none';
-                                previewFrame.style.opacity = '1';
-                            };
-                        }, 500); // 500ms delay before showing preview
-                    });
-                    
-                    item.addEventListener('mouseleave', function() {
-                        clearTimeout(hoverTimer);
-                        
-                        // If this was the active item, hide the preview after a delay
-                        if (activeItem === item) {
-                            setTimeout(() => {
-                                if (activeItem === item) {
-                                    previewContainer.classList.remove('show');
-                                    activeItem = null;
-                                    
-                                    // Reset iframe src after animation completes
-                                    setTimeout(() => {
-                                        previewFrame.src = '';
-                                    }, 300);
-                                }
-                            }, 300); // 300ms delay before hiding
-                        }
-                    });
-                });
-                
-                // Hide preview when clicking outside
-                previewContainer.addEventListener('click', function() {
-                    previewContainer.classList.remove('show');
-                    activeItem = null;
-                    
-                    // Reset iframe src after animation completes
-                    setTimeout(() => {
-                        previewFrame.src = '';
-                    }, 300);
-                });
-            });
-        </script>
     </body>
 </html>
